@@ -1096,8 +1096,15 @@ SATA1 (0, 0): /Users/abaqueiro/vm/debian-10-amd64/debian-10-amd64.vdi (UUID: 0cb
 </pre>
 </dd>
 
-<hr>
+<h2>Time settings</h2>
 
+<dt>Set real time clock in VM to UTC</dt>
+<dd>VBoxManage modifyvm <u>$NAME</u> --rtcuseutc on</dd>
+
+<dt>Set real time clock in VM to Local Time</dt>
+<dd>VBoxManage modifyvm <u>$NAME</u> --rtcuseutc off</dd>
+
+<hr>
 <h2>References:</h2>
 
 <ol>
