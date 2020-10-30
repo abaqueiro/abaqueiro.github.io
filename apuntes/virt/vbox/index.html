@@ -767,7 +767,7 @@ VBoxManage list vms
 <h2>create and run a virtual machine</h2>
 
 <dt>create a VM description</dt>
-<dd>VBoxManage createvm --name <u>NAME</u> --ostype <u>OS_TYPE</u> --basefolder <u>PATH</u>
+<dd>VBoxManage createvm --name <u>$VM_NAME</u> --ostype <u>$OS_TYPE</u> --basefolder <u>$BASE_PATH</u>
 </dd>
 
 <p>
@@ -776,7 +776,7 @@ VBoxManage list vms
 </p>
 
 <dt>register the vm description</dt>
-<dd>VBoxManage registervm <u>PATH_TO_.VBOX</u></dd>
+<dd>VBoxManage registervm <u>$FILE.vbox</u></dd>
 
 <dt>show VM information</dt>
 <dd>
@@ -893,6 +893,9 @@ As you can see the virtual machine is created with minimun specs and NAT network
 of course it will not boot because does not have storage attached, so we need to stop it
 </p>
 
+<dt>send poweroff signal to VM</dt>
+<dd>VBoxManage controlvm <u>$NAME</u> acpipowerbutton</dd>
+
 <dt>turn off VM equivalent to pulling the power cable</dt>
 <dd>VBoxManage controlvm <u>$NAME</u> poweroff</dd>
 
@@ -908,7 +911,30 @@ of course it will not boot because does not have storage attached, so we need to
 <dd>VBoxManage modifyvm <u>$NAME</u> --vrde on</dd>
 
 <dt>test VRDE was activated</dt>
-<dd>VBoxManage showvminfo <u>$NAME</u> | grep -i vrde</dd>
+<dd>VBoxManage showvminfo <u>$NAME</u> | grep -i vrde
+<pre>
+VRDE:                        enabled (Address 0.0.0.0, Ports 3389, MultiConn: off, ReuseSingleConn: off, Authentication type: null)
+VRDE property               : TCP/Ports  = "3389"
+VRDE property               : TCP/Address = <not set>
+VRDE property               : VideoChannel/Enabled = <not set>
+VRDE property               : VideoChannel/Quality = <not set>
+VRDE property               : VideoChannel/DownscaleProtection = <not set>
+VRDE property               : Client/DisableDisplay = <not set>
+VRDE property               : Client/DisableInput = <not set>
+VRDE property               : Client/DisableAudio = <not set>
+VRDE property               : Client/DisableUSB = <not set>
+VRDE property               : Client/DisableClipboard = <not set>
+VRDE property               : Client/DisableUpstreamAudio = <not set>
+VRDE property               : Client/DisableRDPDR = <not set>
+VRDE property               : H3DRedirect/Enabled = <not set>
+VRDE property               : Security/Method = <not set>
+VRDE property               : Security/ServerCertificate = <not set>
+VRDE property               : Security/ServerPrivateKey = <not set>
+VRDE property               : Security/CACertificate = <not set>
+VRDE property               : Audio/RateCorrectionMode = <not set>
+VRDE property               : Audio/LogPath = <not set>
+</pre>
+</dd>
 
 <div class="nota">
 to enable VRDP service, VirtualBox Extension Pack must be installed.
@@ -917,13 +943,13 @@ to enable VRDP service, VirtualBox Extension Pack must be installed.
 <h2>defining CPU and Memory capacity</h2>
 
 <dt>setting number of CPUs</dt>
-<dd>VBoxManage modifyvm<u>$NAME</u>--cpus 2</dd>
+<dd>VBoxManage modifyvm <u>$NAME</u> --cpus 2</dd>
 
 <dt>setting RAM size</dt>
-<dd>VBoxManage modifyvm<u>$NAME</u>--memory 512</dd>
+<dd>VBoxManage modifyvm <u>$NAME</u> --memory 512</dd>
 
 <dt>setting Video RAM size</dt>
-<dd>VBoxManage modifyvm<u>$NAME</u>--vram 12</dd>
+<dd>VBoxManage modifyvm <u>$NAME</u> --vram 12</dd>
 
 <table id="res">
 <thead>
