@@ -1096,6 +1096,26 @@ SATA1 (0, 0): /Users/abaqueiro/vm/debian-10-amd64/debian-10-amd64.vdi (UUID: 0cb
 </pre>
 </dd>
 
+<dt>change UUID de disco virtual</dt>
+<dd>
+VBoxManage internalcommands sethduuid <u>$VIRTUAL_DISK_FILE</u>
+<pre>
+UUID changed to: d83c8c75-19a5-44de-a33c-4a80d019f2ea
+</pre>
+</dd>
+
+<dt>clone Virtual Disk</dt>
+<dd>
+VBoxManage clonehd <u>$SOURCE_VD_FILE</u> <u>$DEST_VD_FILE</u> --format <u>$VD_FORMAT</u> --variant <u>FORMAT_VARIANT</u>
+<br>ej
+<br>VBoxManage clonehd in.vdi out.vdi --format VDI --variant Standard
+<pre>
+Clone medium created in format 'VDI'. UUID: 83a1bd38-50ea-434d-909c-00a97c802682
+</pre>
+</dd>
+
+<dt>clone</dt>
+
 <h2>Time settings</h2>
 
 <dt>Set real time clock in VM to UTC</dt>
