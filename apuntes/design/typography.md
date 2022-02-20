@@ -49,3 +49,7 @@ You can create a Business Card using only letters and typography
 
 - Adobe InDesign
 
+## References
+
+- [ Typography That Works: Typographic Composition and Fonts ](https://skl.sh/3s5yG7Y)
+
