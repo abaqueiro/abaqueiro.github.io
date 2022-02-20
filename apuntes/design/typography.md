@@ -5,27 +5,27 @@
 ## Font families
 
 Sans serif typefaces
-	- Baskerville (1757)
-	- Futura (1927)
-	- Nobel (1929)
-	- Gill Sans
-	- News Gothic
-	- Trade Gothic (1948)
-	- Franklin Gothic
-	- Univers (1957)
-	- Helvetica (1957)
-	- Univers (1957)
-	- Gotham
-	- Garamond (1989)
-	- Meta (1991)
-	- Didot (1992)
-	- Thesis Serif (1994)
-	- Mrs Eaves (1996)
-	- Verdana (1996)
+- Baskerville (1757)
+- Futura (1927)
+- Nobel (1929)
+- Gill Sans
+- News Gothic
+- Trade Gothic (1948)
+- Franklin Gothic
+- Univers (1957)
+- Helvetica (1957)
+- Univers (1957)
+- Gotham
+- Garamond (1989)
+- Meta (1991)
+- Didot (1992)
+- Thesis Serif (1994)
+- Mrs Eaves (1996)
+- Verdana (1996)
 
-###Project:
+### Project:
 
-You can create a Business Card using only letters and typography
+You can create a Business Card using only letters and typography, go and try it!
 
 ## Lingo
 
@@ -39,7 +39,7 @@ You can create a Business Card using only letters and typography
 
 <b>Small Caps</b> integrate peacefully with lowercase letters.
 
-<b>Pseudo small caps</b> are an averration againts nature, tryin to provide small caps to fonts that does not have it.
+<b>Pseudo small caps</b> are an averration againts nature, trying to provide small caps to fonts that does not have it.
 
 <b>Drop capital</b> or drop cap is an enlarged letter, a traditional feature of book design.
 
