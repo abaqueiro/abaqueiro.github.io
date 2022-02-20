@@ -1,6 +1,6 @@
 # Typography
 
-![Typography ](img/typography-ling.png)
+![Typography ](img/typography-lingo.png)
 
 ## Font families
 
