@@ -51,5 +51,5 @@ You can create a Business Card using only letters and typography
 
 ## References
 
-- [ Typography That Works: Typographic Composition and Fonts ](https://skl.sh/3s5yG7Y)
+- [ Typography That Works: Typographic Composition and Fonts ](https://skl.sh/3s3TUmE)
 
