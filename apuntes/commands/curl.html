@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta charset="utf-8">
+	
+	<title>@abaqueiro on curl</title>
+<style>
+* {
+	box-sizing: border-box;
+}
+html {
+	/*
+	background-color: rgb(39,40,34);
+	color: white;
+	*/
+}
+body {
+	font-family: sans-serif;
+	/*font-weight: 300;*/
+}
+h1 {
+	color: purple;
+	/*
+	color: rgb(162,129,255);
+	color: rgb(100,100,98);
+	*/
+}
+
+#brand {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+#brand .author {
+	font-weight: bold;
+	display: inline-block;
+}
+#brand .pub_date {
+	margin: auto;
+	right: 10px;
+	display: inline-block;
+	position: absolute;
+}
+#brand a
+,#brand a:visited
+{
+	text-decoration: none;
+	color: black;
+}
+#brand a:hover {
+	color: blue;
+}
+
+h2 {
+	color: darkred;
+	/*
+	color: rgb(249,38,144);
+	color: rgb(131,38,65);
+	*/
+}
+dt {
+	color: blue;
+	font-weight: 400;
+	/*
+	color: rgb(249,38,144);
+	color: rgb(162,129,255);
+	*/
+}
+dd {
+	margin-bottom: 20px;
+}
+u {
+	color: blue;
+}
+img {
+	width: 100%;
+}
+/*
+a {
+	color: yellow;
+}
+*/
+a:visited {
+	color:blue;
+}
+b {
+	color: darkred;
+	/*
+	color: rgb(249,38,144);
+	*/
+}
+</style>
+</head>
+<body>
+<div id="brand">
+	<div class="author"><a href="../index.html">Alfonso Baqueiro Bernal</a></div>
+	<div class="pub_date">Monday Feb 28, 2022</div>
+</div>
+
+<h1>curl</h1>
+
+<dt>retrieve a url</dt>
+<dd><b>curl</b> https://www.google.com/</dd>
+
+<dt>method</dt>
+<dd>
+<b>--request</b> PUT
+<br><b>-X</b> PUT
+</dd>
+
+<dt>pass a header</dt>
+<dd>
+<b>--header</b> "X-API-KEY: BhdvvgEI5W45yGU
+<br><b>-H</b> "X-API-KEY: BhdvvgEI5W45yGU
+</dd>
+
+<dt>not check SSL/TLS trust chain</dt>
+<dd>
+<b>--insecure</b>
+<br><b>-k</b>
+</dd>
+
+<dt>validate SSL/TLS cert againts some cert(s) file</dt>
+<dd>
+<b>--cacert</b> SOMECERT.pem
+</dd>
+
+<h2>References</h2>
+
+<ul>
+<li><a target="_blank" href="https://linux.die.net/man/1/curl">curl man page</a></li>
+</ul>
+
+
+</body>
+</html>
