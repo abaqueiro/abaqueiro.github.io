@@ -12,7 +12,7 @@ blockquote {
 <div id="fecha">
 Friday March 04, 2022
 </div>
-[ BACK ](..)
+[ UP ](..)
 <hr>
 
 # How to improve productivity
