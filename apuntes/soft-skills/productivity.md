@@ -5,9 +5,14 @@ blockquote {
 	background-color: #C0C0C0;
 	padding-left: 1em;
 }
+#fecha {
+	float: right;
+}
 </style>
-
-[ UP ](..)
+<div id="fecha">
+Friday March 04, 2022
+</div>
+[ BACK ](..)
 <hr>
 
 # How to improve productivity
