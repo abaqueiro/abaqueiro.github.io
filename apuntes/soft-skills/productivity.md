@@ -106,7 +106,7 @@ Expected Value = Utility * Probability
 
 Work evolving in spiral way.
 
-### Newtows first law of motion
+### Newton's first law of motion
 
 An object is at rest or travelling at a constant velocity unless it's acted on
 by an external, imbalanced force (inertia law).
