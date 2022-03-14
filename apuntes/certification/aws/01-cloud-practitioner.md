@@ -4,12 +4,14 @@
 #date {
 	float: right;
 }
+/*
 blockquote {
 	border: 1px solid black;
 	border-left: 6px solid black;
 	background-color: #C0C0C0;
 	padding-left: 1em;
 }
+*/
 </style>
 
 <div id="date">
