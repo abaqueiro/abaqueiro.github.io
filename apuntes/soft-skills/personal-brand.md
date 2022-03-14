@@ -11,6 +11,7 @@ blockquote {
 	padding-left: 1em;
 }
 </style>
+
 <div id="date">
 Wednesday March 09, 2022
 </div>
