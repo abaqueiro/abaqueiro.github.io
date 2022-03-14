@@ -4,20 +4,19 @@
 #date {
 	float: right;
 }
-/*
 blockquote {
 	border: 1px solid black;
 	border-left: 6px solid black;
 	background-color: #C0C0C0;
 	padding-left: 1em;
 }
-*/
 </style>
 
 <div id="date">
-Saturday March 12, 2022
+Sunday March 13, 2022
 </div>
 [ UP ](../..)
+
 <hr>
 
 # AWS Cloud Practitioner
