@@ -17,4 +17,8 @@ Monday March 14, 2022
 
 - [ The Exam CLF-C01 and Value proposition ](01.html)
 - [ Cloud Economics ](02.html)
+- [ Cloud Architecture Design Principles ](03.html)
+
+
+
 
