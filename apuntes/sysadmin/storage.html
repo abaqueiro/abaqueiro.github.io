@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta charset="utf-8">
+	
+	<title>@abaqueiro on storage</title>
+<style>
+* {
+	box-sizing: border-box;
+}
+html {
+	/*
+	background-color: rgb(39,40,34);
+	color: white;
+	*/
+}
+body {
+	font-family: sans-serif;
+	/*font-weight: 300;*/
+}
+h1 {
+	color: purple;
+	/*
+	color: rgb(162,129,255);
+	color: rgb(100,100,98);
+	*/
+}
+
+#brand {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+#brand .author {
+	font-weight: bold;
+	display: inline-block;
+}
+#brand .pub_date {
+	margin: auto;
+	right: 10px;
+	display: inline-block;
+	position: absolute;
+}
+#brand a
+,#brand a:visited
+{
+	text-decoration: none;
+	color: black;
+}
+#brand a:hover {
+	color: blue;
+}
+
+h2 {
+	color: darkred;
+	/*
+	color: rgb(249,38,144);
+	color: rgb(131,38,65);
+	*/
+}
+dt {
+	color: blue;
+	font-weight: 400;
+	/*
+	color: rgb(249,38,144);
+	color: rgb(162,129,255);
+	*/
+}
+dd {
+	margin-bottom: 20px;
+}
+u {
+	color: blue;
+}
+img {
+	width: 100%;
+}
+/*
+a {
+	color: yellow;
+}
+*/
+a:visited {
+	color:blue;
+}
+b {
+	color: darkred;
+	/*
+	color: rgb(249,38,144);
+	*/
+}
+</style>
+</head>
+<body>
+<div id="brand">
+	<div class="author"><a href="../index.html">Alfonso Baqueiro Bernal</a></div>
+	<div class="pub_date">Thursday Nov 10, 2022</div>
+</div>
+
+<h1>Storage concepts</h1>
+
+<dt>DAS - Direct Attached Storage</dt>
+<dd><p>Data storage that is connected directly to the computer accesing it<br>
+such as hard disk drives or solid state drives<br>
+connected using IDE interface or SATA interface or USB interface or SCSI interface</p>
+<p>Can only be configured by the computer it is attached to.</p>
+</dd>
+
+<dt>NAS - Network Attached Storage</dt>
+<dd>Is a server that is dedicated only to file sharing. It provides data to other
+computers using the network or the LAN. A NAS service can be made up of multiple NAS devices.</dd>
+
+<dt>SAN - Storage Area Network</dt>
+<dd><p>It is a high-speed network that provides access to data storage at <b>the block level</b>.<br>
+Connects servers with storage (  disk arrays, RAID HW, tape libraries ).<br>
+Operating system view SAN devices as directly connected.</p>
+<p>Consist of at least a) SAN switch b) Storage device c) A server.<br>
+Typically connected using Fibre Channel. Size and topology depends on business needs.
+</p>
+</dd>
+
+<h2>References</h2>
+
+<ul>
+<li><a target="_blank" href="https://www.webopedia.com/definitions/direct-attached-storage/">DAS</a></li>
+<li><a target="_blank" href="https://www.webopedia.com/definitions/network-attached-storage/">NAS</a></li>
+<li><a target="_blank" href="https://www.webopedia.com/definitions/san/">SAN</a></li>
+</ul>
+
+</body>
+</html>
