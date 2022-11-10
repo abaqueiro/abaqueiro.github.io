@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta charset="utf-8">
+	
+	<title>@abaqueiro on LVM</title>
+<style>
+* {
+	box-sizing: border-box;
+}
+html {
+	/*
+	background-color: rgb(39,40,34);
+	color: white;
+	*/
+}
+body {
+	font-family: sans-serif;
+	/*font-weight: 300;*/
+}
+h1 {
+	color: purple;
+	/*
+	color: rgb(162,129,255);
+	color: rgb(100,100,98);
+	*/
+}
+
+#brand {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+#brand .author {
+	font-weight: bold;
+	display: inline-block;
+}
+#brand .pub_date {
+	margin: auto;
+	right: 10px;
+	display: inline-block;
+	position: absolute;
+}
+#brand a
+,#brand a:visited
+{
+	text-decoration: none;
+	color: black;
+}
+#brand a:hover {
+	color: blue;
+}
+
+h2 {
+	color: darkred;
+	/*
+	color: rgb(249,38,144);
+	color: rgb(131,38,65);
+	*/
+}
+dt {
+	color: blue;
+	font-weight: 400;
+	/*
+	color: rgb(249,38,144);
+	color: rgb(162,129,255);
+	*/
+}
+dd {
+	margin-bottom: 20px;
+}
+u {
+	color: blue;
+}
+img {
+	width: 100%;
+}
+/*
+a {
+	color: yellow;
+}
+*/
+a:visited {
+	color:blue;
+}
+b {
+	color: darkred;
+	/*
+	color: rgb(249,38,144);
+	*/
+}
+</style>
+</head>
+<body>
+<div id="brand">
+	<div class="author"><a href="../index.html">Alfonso Baqueiro Bernal</a></div>
+	<div class="pub_date">Tuesday Sep 6, 2022</div>
+</div>
+
+<h1>LVM </h1>
+
+<p>
+LVM is an acronym for Logical Volume Manager, is a solution similar to others like Veritas to manage disk space in a more flexible way than what disk partitions provide, partitions are a way to reserve and allocate disk chunks to acomadate a FILESYSTEM (a convention of rules and code of how to manage files and permissions on a disk chunk, most known are FAT32, exFAT, NTFS, ext2, ext3, ext4, reiserFS, etc).
+</p>
+
+<p>
+The great thing about LVM is that you can create as many volumes as you need, and that you can easily extend and shrink them, you can delete them, and this volumes can contain a filesystem.
+</p>
+
+<p>
+Of course, disk chunks for LVM have to be a normal partition, but is a type of partition for this purpose, that can be created with fdisk or other more advanced tools like parted or gparted (nice GUI). A common scenario is to create only one partition of type LVM taking all available space.
+</p>
+
+<p>
+(Being precise a LVM can be created on any block device (disk partition, whole disk, raid device, other LVM logical volume, etc)
+</p>
+
+<h2>Concepts</h2>
+
+<dt>LVM</dt>
+<dd>Logical Volume Manager</dd>
+
+<dt>PV - Physical Volume</dt>
+<dd>Is a partition or whole disk designated for LVM use. Must be initialized.</dd>
+
+<dt>VG - Volume Group</dt>
+<dd>A collection of physical volumes which creates a pool of disk space out of which logical volumes can be allocated</dd>
+
+<dt>LV - Logical Volume</dt>
+<dd>Is a mountable storage device.</dd>
+
+<img src="https://access.redhat.com/webassets/avalon/d/Red_Hat_Enterprise_Linux-8-Configuring_and_managing_logical_volumes-en-US/images/31bd96635c4120abe3e771a423f61cd6/basic-lvm-volume-components.png" style="width: 600px;">
+
+<h2>Use cases for LVM</h2>
+
+<ul>
+<li>
+Combine two or more block devices into a bigger volume.
+</li>
+<li>
+Resize volumes on a running system as needed and a more flexible control over allocated/unallocated space.
+</li>
+<li>
+Create as many volumes as you need for specific mount points.
+</li>
+<li>
+Create read only volumes.
+</li>
+<li>
+Take snapshots of volumes while only differences consuming space.
+</li>
+<li>
+Migrate volumes from one physical media to another on a running system.
+</li>
+<li>
+Increase performance using striping
+</li>
+<li>
+Cache logical volume using SSD to improve the performance of a slower block device.
+</li>
+<li>
+Create RAID logical volumes, levels (0,1,4,5,6 and 10 supported).
+</ul>
+
+<h2>Command reference</h2>
+
+<dt><a target="_blank" href="https://linux.die.net/man/8/pvcreate">pvcreate</a></dt>
+<dd>initialize a disk or partition for use by LVM</dd>
+
+<dt><a target="_blank" href="https://linux.die.net/man/8/pvdisplay">pvdisplay</a></dt>
+<dd>display attributes of a physical volume</dd>
+
+<dt><a target="_blank" href="https://linux.die.net/man/8/vgcreate">vgcreate</a></dt>
+<dd>create a volume group</dd>
+
+<dt><a target="_blank" href="https://linux.die.net/man/8/vgdisplay">vgdisplay</a></dt>
+<dd>display attributes of volume groups</dd>
+
+<dt><a target="_blank" href="https://linux.die.net/man/8/lvcreate">lvcreate</a></dt>
+<dd>create a logical volume in an existing volume group</dd>
+
+<dt><a target="_blank" href="https://linux.die.net/man/8/lvdisplay">lvdisplay</a></dt>
+<dd>display attributes of a logical volume</dd>
+
+<dt><a target="_blank" href="https://linux.die.net/man/8/lvextend">lvextend</a></dt>
+<dd>extend the size of a logical volume</dd>
+
+<h2>Resources</h2>
+
+<ul>
+<li>
+<a target="_blank" href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/configuring_and_managing_logical_volumes/overview-of-logical-volume-management_configuring-and-managing-logical-volumes">Redhat LVM documentation</a>
+</li>
+<li>
+<a target="_blank" href="https://wiki.ubuntu.com/Lvm">Ubuntu wiki on LVM</a>
+</li>
+</ul>
+
+</body>
+</html>
