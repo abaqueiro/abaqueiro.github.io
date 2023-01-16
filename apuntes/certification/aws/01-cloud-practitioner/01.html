@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>AWS Cloud Practitioner Certification by @abaqueiro</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito&family=PT+Sans&display=swap');
+* {
+	font-family: 'Nunito';
+	box-sizing: border-box;
+}
+html {
+	background-color: lightgray;
+}
+body {
+	background-color: white;
+	max-width: 60em;
+	margin: auto;
+	margin-top: 40px;
+	margin-bottom: 40px;
+	padding: 20px 40px;
+	border: 1px solid gray;
+	box-shadow: 10px 10px 12px gray;
+}
+h1 {
+	color: #a32cc4;
+}
+h2 {
+	color: #8B008B;
+}
+h3 {
+	color: #301934;
+	color: #32174d;
+}
+blockquote {
+	border: 1px solid black;
+	border-left: 6px solid black;
+	background-color: #C0C0C0;
+	padding: 10px 20px;
+}
+ol {
+    counter-reset: section;
+    list-style-type: none;
+}
+ol > li:before {
+	counter-increment: section;
+    content: counters(section, ".") " ";
+}
+#brand {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+#brand .author {
+	font-weight: bold;
+	display: inline-block;
+}
+#brand .pub_date {
+	float: right;
+}
+#brand a
+,#brand a:visited
+{
+	text-decoration: none;
+	color: black;
+}
+#brand a:hover {
+	color: blue;
+}
+</style>
+</head>
+<body>
+<div id="brand">
+	<div class="author"><a href="../../../../index.html">Alfonso Baqueiro Bernal</a></div>
+	<div class="pub_date">Sunday March 13, 2022</div>
+</div>
+
+
+<a href="index.html">[ UP ]</a>
+
+<h1>AWS Cloud Practitioner</h1>
+
+<h2>The Exam CLF-C01</h2>
+
+<h3>General understanding of the AWS cloud</h3>
+
+<p>
+Oriented toward people in roles
+
+<ul>
+<li>technical management</li>
+<li>compliance</li>
+<li>security</li>
+<li>sales</li>
+<li>financial</li>
+</ul>
+</p>
+
+<p>
+The exam includes knowledge in
+
+<ul>
+<li>Available services and their common use cases</li>
+<li>Architectural principles at conceptual level</li>
+<li>Account security and compliance</li>
+<li>Costs, economics, billing and pricing</li>
+<li>AWS shared responsability model</li>
+</ul>
+</p>
+
+<p>Recommended 6 months of experience with AWS cloud</p>
+
+<p>
+Questions of multiple choice:
+
+<ul>
+<li>single response
+<li>multiple response
+</li>
+</ul>
+</p>
+
+<p>You need score 700 of 1000</p>
+
+<h3>Domains</h3>
+
+<ol>
+<li>Cloud concepts 26%º
+	<ol>
+	<li>AWS cloud and its value proposition</li>
+	<li>Identify aspects of cloud economics</li>
+	<li>List different cloud architecture design principles</li>
+	</ol>
+</li>
+	
+<li>Security and compliance 25%
+	<ol>
+	<li>Define AWS shared responsability model</li>
+	<li>Define AWS cloud security and compliance concepts</li>
+	<li>Identify AWS access management capabilities</li>
+	<li>Identify resources for security support</li>
+	</ol>
+</li>
+
+<li>Technology 33%
+	<ol>
+	<li>Define methods of deploying and operating the AWS cloud</li>
+	<li>Define AWS globla infra</li>
+	<li>Identify core AWS services</li>
+	<li>Identify resources for technology support</li>
+	</ol>
+
+</li>
+
+<li>Billing and pricing 16%
+	<ol>
+	<li>Compare and contrast the various pricing models</li>
+	<li>Recognize various account structures in relation to AWS billing and pricing</li>
+	<li>Identify resources available for billing support</li>
+	</ol>
+</li>
+</ol>
+
+<h2>Cloud computing</h2>
+
+<blockquote>&gt; According to AWS is the on-demand delivery of compute power, databases, storage, applications
+and other IT resources through a cloud services platform via the internet with pay as yo go pricing.
+<br>You provision what you need via a webapp.</blockquote>
+
+<ul>
+<li>There is no need for initial investment</li>
+<li>No need of management for cabling and hw</li>
+<li>Provision only what you need at any moment, with posibility to deprovision</li>
+</ul>
+
+<p>
+Support for emerging technologies:
+</p>
+
+<ul>
+<li>Blockchain</li>
+<li>Virtual and augmented reality</li>
+<li>IoT</li>
+<li>Machine Learning and AI</li>
+<li>Robotics</li>
+<li>Database technology</li>
+</ul>
+
+<h2>Cloud computing types</h2>
+
+<ul>
+<li><b>aaS</b> means AS A SERVICE</li>
+
+<li><b>IaaS</b> Infra as a service, provides components as virtual machines, networks, firewalls and storage
+<br>VPC are virtual private clouds for your servers
+</li>
+
+<li><b>PaaS</b> Platform as a service, eliminates the need for managing infra, provides runtimes, languages,
+frameworks, updates, patches, database engines, containers, microservices runtimes. You loose
+control over underlying infra.
+<br>Examples in DB category, Mysql, Postgresql, Aurora, Amazon lightsail.
+</li>
+
+<li><b>Saas</b> Software as a service, offers a finished product that is run and managed by the provider, no
+concer about infra or platform where software runs.
+<br>Example, web based email, Workspaces, CRMs, HR workplaces, cloud storage, collaboration
+tools, finance, sales and marketing (sap).
+<br>Other examples, dropbox, office 365, salesforce, yammer, google drive
+</li>
+</ul>
+
+<h2>Cloud deployment models</h2>
+
+<ul>
+<li><b>Cloud-based</b> fully deployed in AWS cloud</li>
+
+<li><b>Hybrid</b> is the most popular, some resources on-premise and others on the cloud.
+<br>Example
+	<ul>
+	<li>Fully managed compute and storage hw built with AWS designed solutions</li>
+	<li>Extends AWS services to consumer data centers, co-location spaces, or on-premises.</li>
+	<li>Can use AWS o Virtualization on AWS</li>
+	</ul>
+</li>
+
+<li><b>On-premises</b> your own data center, hosted privately, required for regulations and governance.
+<br>Uses virtualization, hypervisors.
+</li>
+</ul>
+
+<h2>AWS Services</h2>
+
+<ul>
+<li>Compute
+	<ul>
+	<li>Linux or windows servers</li>
+	<li>functions (AWS Lambda)</li>
+	<li>containers (AWS Fargate)</li>
+	</ul>
+</li>
+<li>Networking and CDN
+	<ul>
+	<li>VPCs</li>
+	</ul>
+</li>
+<li>Storage
+	<ul>
+	<li>Block Storage</li>
+	<li>Object storage (S3)</li>
+	</ul>
+</li>
+<li>Database
+	<ul>
+	<li>mysql</li>
+	<li>nosql: Dynamo DB</li>
+	</ul>
+</li>
+</ul>
+
+<h3>Locations</h3>
+
+<ul>
+<li>Regions
+	<ul>
+	<li>Availability Zones in each Region</li>
+	</ul>
+</li>
+
+<li>Example:</li>
+
+<li>North Virginia
+	<ul>
+	<li>East US</li>
+	<li>East US2</li>
+	<li>US Gov Virginia</li>
+	</ul>
+</li>
+
+<li>As of 2020:
+	<ul>
+	<li>4 Regions</li>
+	<li>77 availability zones in total</li>
+	<li>245 countries serviced</li>
+	<li>205 edge locations</li>
+	<li>11 regional edge caches</li>
+	</ul>
+</li>
+</ul>
+
+<p>AWS is <b>Leader</b> according to 2020 Gartner Magic Quadrant, 10th year in row
+, and 2x more regions with multiple availability zones than nearest competition</p>
+
+<h2>AWS Value proposition: Agility</h2>
+
+<ul>
+<li><b>Agility</b> AWS as producer, we as consumer: co-create value and deliver data, applications, services and solutions to the world.</li>
+<li>Includes the concept of <b>flexibility</b></li>
+<li>Integrates with <b>Agile</b> development, spirar development, and project management</li>
+<li>Leveraging for rapid deployment, testing, experimentation and innovation</li>
+<li>Overcoming geographical limitations</li>
+<li>Ability to replicate/move data from one region to another</li>
+</ul>
+
+<h2>AWS Value proposition: Elasticicy</h2>
+
+<ul>
+<li><b>Elasticity</b> is the ability to almost instantly <b>provision</b> and <b>deprovision</b> resources</li>
+<li>Leveraging dynamic auto-scaling technologies is part of the solution</li>
+</ul>
+
+<blockquote>&gt; Allows to add thousands of virtual servers and petabytes of storage within minutes.
+<br>Regions, enables dynamically shift around expanding global infra capacity, creating
+a better and more enjoyable streaming experience for Netflix members wherever they are.
+<br>Netflix manager
+</blockquote>
+
+<h2>AWS Value proposition: Cost</h2>
+
+<ul>
+<li><b>Reduce costs</b> and investments in conectivity, network, devices, servers, racks, cabling, buildings</li>
+<li>No need for employments and training, certification</li>
+<li>No need for maintenance and upgrades</li>
+<li>No need for facilities</li>
+<li>You can have disaster recovery sites</li>
+<li>Lower cost of DB and storage</li>
+<li>More AWS usage comes with discounted prices</li>
+</ul>
+
+<h2>AWS Value proposition: Security</h2>
+
+<ul>
+<li>AWS responsible for physical security</li>
+<li>AWS responsible for the infra resources (compute, storage, database and network)</li>
+<li>Consumer responsible for software, data and access on top of infra</li>
+<li>AWS has highly-secure non-descript datacenters with stringent physical security and multi-factor authentication of their employees</li>
+</ul>
+
+<h3>Security triad</h3>
+
+<ol>
+<li>IAM Identity and Access Management</li>
+<li>KMS Key Management Service</li>
+<li>Infrastructure security</li>
+	<ul>
+	<li>Through VPC design, firewalls, and managed services (AWS shield, GuardDuty, Inspector)</li>
+	</ul>
+</ol>
+
+<h2>References</h2>
+
+<ul>
+<li><a target="_blank" href="https://aws.amazon.com/certification/certified-cloud-practitioner/">AWS Certified Cloud Practitioner</a></li>
+<li><a target="_blank" href="https://aws.amazon.com/certification/certification-prep/">AWS Certification exam preparation</a></li>
+</ul>
+
+</body>
+</html>
