@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>AWS CP Cert - Cloud Economics by @abaqueiro</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito&family=PT+Sans&display=swap');
+* {
+	font-family: 'Nunito';
+	box-sizing: border-box;
+}
+html {
+	background-color: lightgray;
+}
+body {
+	background-color: white;
+	max-width: 60em;
+	margin: auto;
+	margin-top: 40px;
+	margin-bottom: 40px;
+	padding: 20px 40px;
+	border: 1px solid gray;
+	box-shadow: 10px 10px 12px gray;
+}
+h1 {
+	color: #a32cc4;
+}
+h2 {
+	color: #8B008B;
+}
+h3 {
+	color: #32174d;
+}
+blockquote {
+	border: 1px solid black;
+	border-left: 6px solid black;
+	background-color: #C0C0C0;
+	padding: 10px 20px;
+}
+ol {
+    counter-reset: section;
+    list-style-type: none;
+}
+ol > li:before {
+	counter-increment: section;
+    content: counters(section, ".") " ";
+}
+b {
+	color: darkred;
+}
+#brand {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+#brand .author {
+	font-weight: bold;
+	display: inline-block;
+}
+#brand .pub_date {
+	float: right;
+}
+#brand a
+,#brand a:visited
+{
+	text-decoration: none;
+	color: black;
+}
+#brand a:hover {
+	color: blue;
+}
+table.border td {
+	border: 1px solid gray;
+	padding: 4px;
+}
+.c {
+	text-align: center;
+}
+</style>
+</head>
+<body>
+<div id="brand">
+	<div class="author"><a href="../../../../index.html">Alfonso Baqueiro Bernal</a></div>
+	<div class="pub_date">Tuesday March 15, 2022</div>
+</div>
+
+<a href="index.html">[ UP ]</a>
+
+<h1>AWS Cloud Practitioner / Architecture Design Principles</h1>
+
+<ul>
+<li>First root account and Identity Access Management - IAM</li>
+<li>Virtual Private Clouds - VPCs</li>
+<li>Amazon Machine Images - AMIs</li>
+</ul>
+
+<p>
+A <b>Hypervisor</b> is the software that produces and manages virtual infrastructure
+, allowing multiple operating systems to run and share resources on a single physical machine
+</p>
+
+<p>
+Sharing CPU cycles, RAM memory and storage.
+</p>
+
+<p>
+The system running the hypervisor is called <b>the host</b>
+</p>
+
+<p>
+It is commonly a rack mounted server blade.
+</p>
+
+<p>
+The virtual machines running on the host are <b>the guest</b>
+</p>
+
+<p>
+Each VM takes one set of physical hw
+</p>
+
+<p>
+Multi-tenancy of guests usually involves OS like windows, linux, BSD, etc
+</p>
+
+<h2>Types of Hypervisors</h2>
+
+<h3>Type 1 (native or bare metal)</h3>
+
+<table class="border c">
+<tr>
+	<td>HW</td>
+</tr>
+<tr>
+	<td>Hypervisor</td>
+</tr>
+<tr>
+	<td>Guest OS(s)</td>
+</tr>
+<tr>
+	<td>App(s)</td>
+</tr>
+</table>
+
+<p>
+Some implementations are:
+</p>
+
+<ul>
+<li>KVM</li>
+<li>Xen from Citrix</li>
+<li>Hyper-V from Microsoft</li>
+<li>vSphere/ESXi</li>
+<li>OVM</li>
+</ul>
+
+<p>
+<b>AWS runs on Xen type 1 hypervisors</b>
+</p>
+
+<h3>Type 2 hypervisor</h3>
+
+<table class="border c">
+<tr>
+	<td>HW</td>
+</tr>
+<tr>
+	<td>Host OS</td>
+</tr>
+<tr>
+	<td>Apps, one is a Type2 Hypervisor</td>
+</tr>
+<tr>
+	<td>Guest OS</td>
+</tr>
+<tr>
+	<td>App(s)</td>
+</tr>
+</table>
+
+<p>
+Some implementations are:
+</p>
+
+<ul>
+<li>Oracle Virtual Box</li>
+<li>VMware Workstation / VMWare player / Fusion</li>
+<li>Microsoft Hyper-V</li>
+<li>Red Hat Enterprise Virtualization</li>
+<li>qemu</li>
+</ul>
+
+<h2>AWS shared responsability model</h2>
+
+<p>
+AWS manages physical security and hypervisor security, it ensures guests OS
+run securely isoletad from one another.
+</p>
+
+<p>
+The consumer takes responsability for managing the guest operating system
+(including updates and security patches), related application security, the design
+of the virtual networks and logical firewall.
+</p>
+
+<h3>Risk treatment</h3>
+
+<p>
+Reduction or Acceptance
+</p>
+
+<p>
+How much do you decide to manage or use managed services?
+</p>
+
+<p>
+How much is on-premises and how much is on cloud?
+</p>
+
+<p>
+Shared responsability is a form of risk transference
+</p>
+
+<p>
+When you migrate resources to a cloud services provider (CSP), the service level agreement (SLA)
+becomes a joint shared responsability between the provider and the consumer
+</p>
+
+<p>
+<b>IasS</b> and <b>SaaS</b> have clear demarcation points
+</p>
+
+<p>
+<b>PaaS</b> demarcation is less clear, and depend on how managed service means.
+</p>
+
+<h2>AWS provider responsability</h2>
+
+<p>
+AWS responsabilities:
+</p>
+
+<ul>
+<li>AWS datacenters are <b>nondescript</b> undisclosed locations with 24/7 staff</li>
+<li>MFA for facility entry with continuous monitoring, logging and auditing</li>
+<li>Automated changes and control processes</li>
+<li>Bastion services act as gateways for privileged access</li>
+<li>Network boundary devices monitor and audit access with intrusion detection and analysis</li>
+</ul>
+
+<figure>
+	<img src="img/aws-resp-iaas.png" style="width: 100%">
+	<figcaption>In <b>IaaS</b> AWS responsability lies in the gray area in the image</figcaption>
+</figure>
+
+<h2>Customers responsabilities:</h2>
+
+<ul>
+<li>Content stored on AWS</li>
+<li>AWS services used with the content</li>
+<li>The country where content is stored</li>
+<li>The format and structure</li>
+<li>Access to that content</li>
+</ul>
+
+<p>
+The particular services determines the customer-side responsabilities.
+</p>
+
+<p>
+For example with EC2 instances you would be responsible for updates and upgrades and security patching.
+</p>
+
+<p>
+The <b>customer</b> is <b>ultimately responsible</b> for compliance, regulations and adhering to
+attestation and auditing by third parties.
+</p>
+
+<h2>Root account</h2>
+
+<ul>
+<li>You should never programmatically access resources using the resource account</li>
+<li>If you must, keep it secure, rotate it regularly</li>
+<li>To delete or rotate your AWS account access keys go to</li>
+<br>Security Credentials page in AWS Management Console</li>
+<li>Setup a Multi factor authentication</li>
+</ul>
+
+<p>
+Only the root account can do:
+</p>
+
+<ul>
+<li>Change the root user details and password</li>
+<li>Change support plan, payment options and billing</li>
+<li>Close the account or sign up for GovCloud</li>
+<li>Create an X.509v3 signing certificate</li>
+<li>Transfer Route 53 domain to another account</li>
+</ul>
+
+<h2>AWS Core services</h2>
+
+<ul>
+<li>Compute</li>
+	<ul>
+	<li>EC2</li>
+	<li>Serverless Application Repository</li>
+	<li>AWS Outpost</li>
+	<li>EC2 Image builder</li>
+	</ul>
+<li>Storage</li>
+<li>DB</li>
+<li>Networking &amp; Content Delivery</li>
+	<ul>
+	<li>CloudFront</li>
+	</ul>
+<li>Identity, Security &amp; Compliance</li>
+<li>Management and governance</li>
+	<ul>
+	<li>CloudWatch</li>
+	<li>CloudFormation</li>
+	<li>CloudTrail</li>
+	</ul>
+<li>VPC</li>
+</ul>
+
+<h2>VPC (virtual private cloud)</h2>
+
+<p>
+On VPC Dashboard
+</p>
+
+<p>
+There are several network resources
+</p>
+
+<p>
+There is a default VPC, it uses a 16bit mask, you can have several subnets
+</p>
+
+<p>
+You can have many VPCs on your account, Custom VPC is labeled as <b>Non-default VPC</b>
+</p>
+
+<p>
+Example: having 3 subnets in your VPC, you can put each one in an
+availability zone having high availability.
+</p>
+
+<p>
+VPC wizard is infrastructure as code: You can use CloudFormation
+</p>
+
+<p>
+Ways to configure a VPC:
+</p>
+
+<ol>
+<li><figure>
+	<figcaption>VPC with a single public subnet</figcaption>
+	<img src="img/vpc-config-1.png">
+</figure></li>
+
+<li><figure>
+	<figcaption>VPC with public and private subnets</figcaption>
+	<img src="img/vpc-config-2.png">
+</li>
+
+<li><figure>
+	<figcaption>VPC with public and private subnets and hardware VPN access</figcaption>
+	<img src="img/vpc-config-3.png">
+</li>
+
+<li><figure>
+	<figcaption>VPC with a private subnet only and hardware VPN access</figcaption>
+	<img src="img/vpc-config-4.png">
+</li>
+</ol>
+
+<h3>Networking details</h3>
+
+<p>
+AWS creates a default VPC
+</p>
+
+<p>
+For each VPC it creates 3 subnets
+</p>
+
+<p>
+You can view the route table for each subnet
+</p>
+
+<p>
+If a subnet has configured a <b>IGW</b> (Internet Gateway) it is considered public
+</p>
+
+<p>
+If I remove the IGW it becomes a private subnet
+</p>
+
+<p>
+I can add a <b>VPG</b> (Virtual Private Gateway) to connect to a VPN
+</p>
+
+<p>
+An Instance can be asigned a public IP address from the IP pool or an Elastic IP address
+</p>
+
+<p>
+An Elastic IP address is also taken from the pool, but the beauty is asigned to your account, and
+you can reallocate to other EC2 instance. If you have a Elastic IP and is not assigned, you will
+be charged.
+</p>
+
+<p>
+To being able to communicate a instance that is only on private subnet, you have to add a NAT
+gateway, the NAT gateway sits in the public subnet.
+</p>
+
+<p>
+By the way, a NAT gw has to use an Elastic IP address. NAT is used <i>only for IPv4</i>.
+<br>For IPv6 you need to use an <b>Egress Only Internet Gateway</b> <i>only for IPv6</i>.
+</p>
+
+<p>
+DHCP options can be used if you want to modify the default DHCP server.
+</p>
+
+<h4>Network Endpoints</h4>
+
+<p>
+Endpoints allows you to setup communication between services in the AWS cloud, there are 2 types:
+</p>
+
+<ul>
+<li><b>Gateway endpoint</b>: It is configured in the subnet route table. For example connect your instances
+to a DB or S3 service.</li>
+
+<li><b>Interface endpoint</b>: Does not involve anything in the route table. For example if I want to not use
+a volume to store my files, and use Elastic File System (cool service that allows to shrink
+and grow storage), you have to configure an <b>Endpoint</b> and it is going to be a logical network
+interface, and use one IP address.
+
+<p>
+The Interface endpoint will use one of the IP adress in your subnet, while the gateway endpoint
+is just an entry in the route table.
+</p>
+</li>
+
+<li>
+<p>
+If you want to connect two VPCs you will do that through <b>Peering Connections</b> it can be done
+even between different root accounts, one is the requester and the other is the accepter.
+<br>The IP address can not overlap
+<br>They are not transitive, that means you have to explicitly create a peer for each pair of VPCs
+</p>
+</li>
+</ul>
+
+<h2>AMI :: Amazon Machine Image</h2>
+
+<p>
+<b>EC2</b> - Elastic Cloud Compute
+</p>
+
+<p>
+EC2 instance is a provisioned virtual machine, to provision a virtual machine you start from
+a software stack image or AMI.
+</p>
+
+<p>
+There is a AMI marketplace with more than 500 images of different OSs and software stacks.
+</p>
+
+<p>
+You can build your own AMI with the <b>EC2 Image Builder</b>, also it can build docker Images.
+</p>
+
+<p>
+AMI is a software template which includes OS and optionaly applications.
+</p>
+
+<p>
+There is a lot of Linux distributions for everyone like:
+</p>
+
+<ul>
+<li>Amazon linux</li>
+<li>Cent OS</li>
+<li>Debian</li>
+<li>Fedora</li>
+<li>Gentoo</li>
+<li>openSUSE</li>
+<li>Red Hat</li>
+<li>SUSE</li>
+<li>Ubuntu</li>
+<li>Windows</li>
+<li>MacOS</li>
+</ul>
+
+<p>
+For several architectures:
+</p>
+
+<ul>
+<li>32-bits x86</li>
+<li>64-bits x86</li>
+<li>64-bits Arm</li>
+</ul>
+
+<p>
+The AMI will include the root volume of that particular OS
+</p>
+
+<p>
+In IaaS you will be responsible of licence and software that is installed within the Instance
+</p>
+
+<h2>Storage</h2>
+
+<ul>
+<li><b>EBS</b> :: Elastic Block Storage</li>
+<li>Instance Store</li>
+</ul>
+
+<p>
+Will be covered later.
+</p>
+
+<h2>Secure connectivity options</h2>
+
+<p>
+There are several options to connect to the resources in a VPC that is not public:
+</p>
+
+<ul>
+<li>
+<b>Virtual private gateway</b> (VPG) for this option, first you create a Customer Gateway,
+that is the device at your headquarters (physical or virtual) that you will use to connect.
+That device has to know routes to resources in your VPC subnets.
+<br>There is Static or Dynamic routing protocol options, with Dynamic you have to assign
+the BGP (border gateway protocol) ASN (autonomous system number). 64512-65534 (are for
+private use)
+<br>You have to configure the public IP address or have a Certificate (Certificate ARN).
+<br>You could go to <i>Certificate Services</i> in AWS and generate an X.509v3 cert for that
+device and simple choose it.
+<br><br>Having the Custom Gateway created, you create the VPG, an this will go to the route table
+in the VPC.
+</li>
+
+<li>
+<b>Site-to-Site VPN Connections</b> after you have created the Customer Gateway and the VPG, you
+go to this menu, and configure both.
+<br>This will create 2 tunnels for us so we have a failover.
+<br>AWS can assign the IPv4 address (from APIPA 169.254.*.*)
+<br>Even can create a pre-shared key
+<br>Many params of IPSec can be configured
+<br>AKA in the past as <u>Managed VPN</u>
+</li>
+
+<li>
+<b>Client VPN Endpoint</b>, this is a client to site VPN, you install open VPN in the client
+(your mobile, laptop, workstation).
+<br>AKA in the past as <u>Peer to site VPN</u>
+</li>
+</ul>
+
+</body>
+</html>
