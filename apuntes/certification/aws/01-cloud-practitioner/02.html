@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>AWS CP Cert - Cloud Economics by @abaqueiro</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito&family=PT+Sans&display=swap');
+* {
+	font-family: 'Nunito';
+	box-sizing: border-box;
+}
+html {
+	background-color: lightgray;
+}
+body {
+	background-color: white;
+	max-width: 60em;
+	margin: auto;
+	margin-top: 40px;
+	margin-bottom: 40px;
+	padding: 20px 40px;
+	border: 1px solid gray;
+	box-shadow: 10px 10px 12px gray;
+}
+h1 {
+	color: #a32cc4;
+}
+h2 {
+	color: #8B008B;
+}
+h3 {
+	color: #32174d;
+}
+blockquote {
+	border: 1px solid black;
+	border-left: 6px solid black;
+	background-color: #C0C0C0;
+	padding: 10px 20px;
+}
+ol {
+    counter-reset: section;
+    list-style-type: none;
+}
+ol > li:before {
+	counter-increment: section;
+    content: counters(section, ".") " ";
+}
+#brand {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+#brand .author {
+	font-weight: bold;
+	display: inline-block;
+}
+#brand .pub_date {
+	float: right;
+}
+#brand a
+,#brand a:visited
+{
+	text-decoration: none;
+	color: black;
+}
+#brand a:hover {
+	color: blue;
+}
+</style>
+</head>
+<body>
+<div id="brand">
+	<div class="author"><a href="../../../../index.html">Alfonso Baqueiro Bernal</a></div>
+	<div class="pub_date">Monday March 14, 2022</div>
+</div>
+
+
+<a href="index.html">[ UP ]</a>
+
+<h1>AWS Cloud Practitioner / Cloud Economics</h1>
+
+<h2>AWS client reported benefits</h2>
+
+<ul>
+<li>62% realize more efficient IT infrastructure staff</li>
+<li>51% achieve lower 5-year cost of operations</li>
+<li>90% use less staff time to deploy new storage</li>
+<li>25% attain more productive development teams</li>
+<li>6 months to pay back outlays</li>
+</ul>
+
+<p>In 2017, Gartner Magic Quadrant placed AWS as Leader having both the furthest completeness of vision
+and the highest ability to execute</p>
+
+<h2>Other cloud providers</h2>
+
+<figure>
+	<img src="img/gartner-magic-quadrant-of-cloud.png">
+	<figcaption>Gartner Magic Quadrant of Cloud providers</figcaption>
+</figure>
+
+<h2>Free tier model</h2>
+
+<ul>
+<li>12 months free for some services on new accounts</li>
+	<ul>
+	<li>750 hours per month of linux/windwos t2.micro or t3.micro depending on region</li>
+	<li>5GB of standard S3 Storage</li>
+	<li>750 hours per month of RDS db.t2.micro database usage</li>
+	<li>25 GB of DynameDB storage</li>
+	</ul>
+<li>Always free tier</li>
+<li>Free trials</li>
+</ul>
+
+<h2>Pricing models</h2>
+
+<h3>Pay as you go</h3>
+
+<ul>
+<li>Only pay for the specific services you need and the time you use them</li>
+<li>Only incur fees for the actual resources and services that your enterprise uses</li>
+<li>You only pay for the time that you are utilizing services</li>
+<li>You reduce risks of over-positioning or missing capacity</li>
+<li>Allows you to scale on demand within your budget</li>
+<li>Business are empowered to be fully elastic and flexible</li>
+</ul>
+
+<h3>Save when you reserve</h3>
+
+<ul>
+<li>Reserve option for services like EC2 (elastic cloud compute) and RDS (relational database service)</li>
+<li>You can save up to 75% when reserving capacity</li>
+</ul>
+
+<h3>Pay less by using more</h3>
+
+<ul>
+<li>Use managed services to help address needs</li>
+<li>Get volume based discount</li>
+<li>Gain substancial savings as usage increases</li>
+<li>Take advantage of S3 tier based pricing</li>
+</ul>
+
+S3 example:
+
+<ul>
+<li>1-50   TB 0.023 GB/month</li>
+<li>51-100 TB 0.022 GB/month</li>
+<li>500TB or more 0.021 GB/month</li>
+</ul>
+
+<h2>Princing calculator</h2>
+
+<a target="_blank" href="https://calculator.aws/#/"> Pricing Calculator </a>
+
+<p>
+Pricing calculator is the new name of the TCO (total cost of ownership) calculator
+</p>
+
+<h2>AWS Cost Calendar</h2>
+
+<p>Cost Explorer is the new name for Cost Calendar</p>
+
+<p>In the aws console, in the billing section there is a Cost Explorer, that gives you some predefined views</p>
+
+<a target="_blank" href="https://console.aws.amazon.com/billing/home?#/costexplorer">Cost Explorer</a>
+
+<ul>
+<li>Monthly spend by service view</li>
+<li>Monthly spend by linked account view</li>
+<li>Daily spend view</li>
+</ul>
