@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>AWS CP Cert - IAM - Identity Access Management by @abaqueiro</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito&family=PT+Sans&display=swap');
+* {
+	font-family: 'Nunito';
+	box-sizing: border-box;
+}
+html {
+	background-color: lightgray;
+}
+body {
+	background-color: white;
+	max-width: 60em;
+	margin: auto;
+	margin-top: 40px;
+	margin-bottom: 40px;
+	padding: 20px 40px;
+	border: 1px solid gray;
+	box-shadow: 10px 10px 12px gray;
+}
+h1 {
+	color: #a32cc4;
+}
+h2 {
+	color: #8B008B;
+}
+h3 {
+	color: #32174d;
+}
+blockquote {
+	border: 1px solid black;
+	border-left: 6px solid black;
+	background-color: #C0C0C0;
+	padding: 10px 20px;
+}
+ol {
+    counter-reset: section;
+    list-style-type: none;
+}
+ol > li:before {
+	counter-increment: section;
+    content: counters(section, ".") " ";
+}
+b {
+	color: darkred;
+}
+img {
+	max-width: 98%;
+}
+figcaption {
+	border-top: 1px dotted gray;
+}
+code {
+	background-color: black;
+	color: #00ff00;
+	border-radius: 8px;
+	padding: 4px;
+	font-family: Monospace;
+	white-space: pre;
+}
+#brand {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+#brand .author {
+	font-weight: bold;
+	display: inline-block;
+}
+#brand .pub_date {
+	float: right;
+}
+#brand a
+,#brand a:visited
+{
+	text-decoration: none;
+	color: black;
+}
+#brand a:hover {
+	color: blue;
+}
+table.border td {
+	border: 1px solid gray;
+	padding: 4px;
+}
+.c {
+	text-align: center;
+}
+</style>
+</head>
+<body>
+<div id="brand">
+	<div class="author"><a href="../../../../index.html">Alfonso Baqueiro Bernal</a></div>
+	<div class="pub_date">Saturday January 28, 2023</div>
+</div>
+
+<a href="index.html">[ UP ]</a>
+
+<h1>AWS Cloud Practitioner / IAM - Identity Access Management</h1>
+
+<p>
+The IAM page is inside the security section of AWS console
+</p>
+
+<figure>
+	<img src="img/iam-menu.png">
+	<figcaption>IAM menu</figcaption>
+</figure>
+
+<p>
+By default the root account has enabled <b>acces keys</b>, it is recomended to delete it, and use
+IAM user keys to improve security.
+</p>
+<p>
+Also it is recomended to enable MFA (multi factor authentication).
+</p>
+<p>
+<b>Best practice</b> recomends to use the <b>least privilege access</b> approach.
+</p>
+
+<h2>Password policy</h2>
+
+<p>
+It is under <b>account settings</b> inside the <b>access management</b> menu.
+</p>
+
+<p>
+A password policy is a set of rules that define the data that forms the password an IAM user can set.
+<br>example 14 characters length.
+</p>
+
+<figure>
+	<img src="img/iam-pwd-policy.png">
+	<figcaption>Password Policy definition options</figcaption>
+</figure>
+
+<h2>IAM Users and Groups</h2>
+
+<p>
+You can single sign-on to a directory service (Open LDAP or Active Directory).
+</p>
+
+<p>
+Principle of <b>Least privilege access</b>, for elevated or escalated access you need to add the user to other group.
+</p>
+
+<p>
+So you create grous like:
+<ul>
+<li>Admins</li>
+<li>Auditors</li>
+<li>Developers</li>
+<li>Testers</li>
+</ul>
+</p>
+
+<p>
+Groups can be based on departments, organizational units, or programs, or dev lifecycle.
+</p>
+
+<p>
+A Group can have until 10 policies attached.
+</p>
+
+<p>
+A <b>Policy</b> is as set of permissions.
+</p>
+
+<p>
+You add users to group to inherit the permissions assigned to the group.
+</p>
+
+<figure>
+	<img src="img/iam-add-user.png">
+	<figcaption>Adding a user</figcaption>
+</figure>
+
+<p>
+When you create a user you can:
+<ul>
+<li>Copy permissions from existing user</li>
+<li>Attach existing policies directly</li>
+</ul>
+It is not recommended when using groups for administering privileges.
+</p>
+
+<h2>IAM Managed Policies</h2>
+
+<p>
+A highest level policy: <i>AdministratorAccess</i>, at the <b>Policy Summary</b>
+you can see the list of services and the acces level for each one.
+</p>
+
+<p>
+Policies can be applied to Users, Groups or Roles.
+</p>
+
+<p>
+You can only apply 10 policies to an entity.
+</p>
+
+<p>
+Deny takes precedence over allow permissions.
+</p>
+
+<p>
+You can use the <b>Policy Simulator</b> <a target="_blank" href="https://policysim.aws.amazon.com/home/index.jsp">HERE</a>
+</p>
+
+<p>
+The <b>Access Analyzer</b> use AI to analyze your resources access.
+</p>
+
+<h2>IAM Roles</h2>
+
+<p>
+A role is an identity than has a permission assigned to it.
+<br>Intended to be assumed by a user, application or service.
+</p>
+
+<p>
+A role does not have long-term credentials (passwords or keys).
+<br>AWS offers temp credentials for the lifetime of a session through STS (Secure Token Service).
+</p>
+
+<p>
+IAM roles are a secure way to grant permissions to entities that you trust like:
+<ul>
+<li>IAM user in another account</li>
+<li>Application code running on EC2</li>
+<li>an AWS service</li>
+<li>Users from corporate directory who use indentity federation with SAML</li>
+<li>Web Identity (Cognito or other OpenID provider)</li>
+</ul>
+IAM roles issue keys that are valid for short duration, making them a secure way t
+grant access.
+</p>
+
+<h2>Bastion (jump) host</h2>
+
+<p>
+A bastion host is a system whose goal is to offer secure access to a
+private network from an external network like the Internet
+</p>
+
+<p>
+Must be hardened to reduce the chances of exploit and penetration
+</p>
+
+<p>
+AppStream 2 is a dynamic bastion service, spins up fresh instances, it
+automatically terminates instances, must have SSO (single sign-on) in place
+, and requires HTML5 desktop browser.
+</p>
+
+<h2>CLI access</h2>
+
+<p>
+Requires <b>Programmatic Access</b> permission
+</p>
+
+<p>
+<b>Access Key ID</b>, it is used to identify the identity making the API call.
+<br><b>Secret Access Key</b>, it is used to sign API calls.
+</p>
+
+<h3>Install the CLI interface: awscli</h3>
+
+<p>
+Can be intsalled on windows using the installer or from python with <b>pip</b>
+</p>
+
+<code>pip install awscli
+</code>
+
+<p>
+To setup access key in the CLI you can run
+</p>
+
+<code>aws configure
+</code>
+
+<p>
+Applications running outside AWS will need access keys (AWS CLI or SDKs)
+</p>
+
+<p>
+SDK use digital signatures to protect the message integrity from tampering,
+requests are valid only for 15 minutes.
+</p>
+
+<p>
+Signing prototol version 4 offers forward secrecy (the actual secret key
+is not used for the digital signing, but rather a derived key).
+</p>
+
+<h2>Single Sign-On (SSO)</h2>
+
+<p>
+Using SAML 2.0 federation, you can have your own Identity provider (Active Directory, eDirectory or OpenLDAP).
+</p>
+
+<h3>AWS Cognito</h3>
+
+<ul>
+<li>Provides user pools and identity pools</li>
+<li>User pools are custom directories that provide sign-up and sign-in options for your app users</li>
+<li>Lets quickly and easily augment secure sign-up and sign-in features to mobile apps</li>
+<li>Fully managed and supports hundreds of millions of users</li>
+<li>Supports a variety of Identiy Providers
+	<ul>
+	<li>Amazon</li>
+	<li>Apple</li>
+	<li>Facebook</li>
+	<li>Google</li>
+	<li>Twitter</li>
+	<li>OpenID</li>
+	<li>SAML</li>
+	<li>Custom</li>
+	</ul>
+</li>
+</ul>
+
+<p>
+Changing the application ID that the identity pool is linked to will prevent existing users to sign-in using
+Cognito.
+</p>
+
+</body>
+</html>
