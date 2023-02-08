@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>PKI by @abaqueiro</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito&family=PT+Sans&display=swap');
+* {
+	font-family: 'Nunito';
+	box-sizing: border-box;
+}
+html {
+	background-color: lightgray;
+}
+body {
+	background-color: white;
+	max-width: 60em;
+	margin: auto;
+	margin-top: 40px;
+	margin-bottom: 40px;
+	padding: 20px 40px;
+	border: 1px solid gray;
+	box-shadow: 10px 10px 12px gray;
+}
+h1 {
+	color: #a32cc4;
+}
+h2 {
+	color: #8B008B;
+}
+h3 {
+	color: #32174d;
+}
+blockquote {
+	border: 1px solid black;
+	border-left: 6px solid black;
+	background-color: #C0C0C0;
+	padding: 10px 20px;
+}
+ol {
+    counter-reset: section;
+    list-style-type: none;
+}
+ol > li:before {
+	counter-increment: section;
+    content: counters(section, ".") " ";
+}
+#brand {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+#brand .author {
+	font-weight: bold;
+	display: inline-block;
+}
+#brand .pub_date {
+	float: right;
+}
+#brand a
+,#brand a:visited
+{
+	text-decoration: none;
+	color: black;
+}
+#brand a:hover {
+	color: blue;
+}
+</style>
+</head>
+<body>
+<div id="brand">
+	<div class="author"><a href="../../index.html">Alfonso Baqueiro Bernal</a></div>
+	<div class="pub_date">Tuesday February 7th, 2023</div>
+</div>
+
+
+<a href="index.html">[ UP ]</a>
+
+<h1>PKI: Public Key Infrastructure</h1>
+
+<p>
+A public key infrastructure is a set of roles, policies, hardware, software and procedures needed to create, manage, distribute, use, store and revoke digital certificates and manage public-key encryption.
+</p>
+
+<h2>Tools and how to use them</h2>
+
+<ul>
+<li>
+	<a target="_blank" href="keytool.html">java <b>keytool</b></a>
+</li>
+</ul>
+
+<h2>References</h2>
+
+<ul>
+<li><a target="_blank" href="https://en.wikipedia.org/wiki/Public_key_infrastructure#Introduction">Wikipedia PKI entry</a></li>
+</ul>
+
+</body>
+</html>

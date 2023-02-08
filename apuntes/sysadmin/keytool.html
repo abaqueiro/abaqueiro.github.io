@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>keytool by @abaqueiro</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito&family=PT+Sans&display=swap');
+* {
+	font-family: 'Nunito';
+	box-sizing: border-box;
+}
+html {
+	background-color: lightgray;
+}
+body {
+	background-color: white;
+	max-width: 60em;
+	margin: auto;
+	margin-top: 40px;
+	margin-bottom: 40px;
+	padding: 20px 40px;
+	border: 1px solid gray;
+	box-shadow: 10px 10px 12px gray;
+}
+h1 {
+	color: #a32cc4;
+}
+h2 {
+	color: #8B008B;
+}
+h3 {
+	color: #32174d;
+}
+blockquote {
+	border: 1px solid black;
+	border-left: 6px solid black;
+	background-color: #C0C0C0;
+	padding: 10px 20px;
+}
+ol {
+    counter-reset: section;
+    list-style-type: none;
+}
+ol > li:before {
+	counter-increment: section;
+    content: counters(section, ".") " ";
+}
+pre {
+	display: inline-block;
+	border-radius: 8px;
+	padding: 4px 1em;
+	background-color: black;
+	color: lightgray;
+	max-height: 20em;
+	width: 100%;
+	overflow: auto;
+}
+tgreen {
+	color: #0f0;
+}
+b {
+	color: red;
+}
+#brand {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+#brand .author {
+	font-weight: bold;
+	display: inline-block;
+}
+#brand .pub_date {
+	float: right;
+}
+#brand a
+,#brand a:visited
+{
+	text-decoration: none;
+	color: black;
+}
+#brand a:hover {
+	color: blue;
+}
+</style>
+</head>
+<body>
+<div id="brand">
+	<div class="author"><a href="../../index.html">Alfonso Baqueiro Bernal</a></div>
+	<div class="pub_date">Tuesday February 7th, 2023</div>
+</div>
+
+
+<a href="index.html">[ UP ]</a>
+
+<h1>keytool</h1>
+
+<p>
+<b>keytool</b> is a command line binary used by the java platform to manage certificates and secrets
+</p>
+
+<h2>How to</h2>
+
+<dl>
+
+<dt>Detect where java binary and keytool binary are located</dt>
+<dd>...</dd>
+
+<dt>List CA certificates trusted by java</dt>
+<dd>
+<pre>$ <tgreen>keytool -list -cacerts</tgreen>
+Keystore type: PKCS12
+Keystore provider: SUN
+
+Your keystore contains 91 entries
+
+actalisauthenticationrootca [jdk], Feb 7, 2023, trustedCertEntry, 
+Certificate fingerprint (SHA-256): 55:92:60:84:EC:96:3A:64:B9:6E:2A:BE:01:CE:0B:A8:6A:64:FB:FE:BC:C7:AA:B5:AF:C1:55:B3:7F:D7:60:66
+addtrustexternalca [jdk], Feb 7, 2023, trustedCertEntry, 
+Certificate fingerprint (SHA-256): 68:7F:A4:51:38:22:78:FF:F0:C8:B1:1F:8D:43:D5:76:67:1C:6E:B2:BC:EA:B4:13:FB:83:D9:65:D0:6D:2F:F2
+addtrustqualifiedca [jdk], Feb 7, 2023, trustedCertEntry, 
+Certificate fingerprint (SHA-256): 80:95:21:08:05:DB:4B:BC:35:5E:44:28:D8:FD:6E:C2:CD:E3:AB:5F:B9:7A:99:42:98:8E:B8:F4:DC:D0:60:16
+affirmtrustcommercialca [jdk], Feb 7, 2023, trustedCertEntry, 
+Certificate fingerprint (SHA-256): 03:76:AB:1D:54:C5:F9:80:3C:E4:B2:E2:01:A0:EE:7E:EF:7B:57:B6:36:E8:A9:3C:9B:8D:48:60:C9:6F:5F:A7
+affirmtrustnetworkingca [jdk], Feb 7, 2023, trustedCertEntry, 
+Certificate fingerprint (SHA-256): 0A:81:EC:5A:92:97:77:F1:45:90:4A:F3:8D:5D:50:9F:66:B5:E2:C5:8F:CD:B5:31:05:8B:0E:17:F3:F0:B4:1B
+affirmtrustpremiumca [jdk], Feb 7, 2023, trustedCertEntry, 
+Certificate fingerprint (SHA-256): 70:A7:3F:7F:37:6B:60:07:42:48:90:45:34:B1:14:82:D5:BF:0E:69:8E:CC:49:8D:F5:25:77:EB:F2:E9:3B:9A
+affirmtrustpremiumeccca [jdk], Feb 7, 2023, trustedCertEntry, 
+Certificate fingerprint (SHA-256): BD:71:FD:F6:DA:97:E4:CF:62:D1:64:7A:DD:25:81:B0:7D:79:AD:F8:39:7E:B4:EC:BA:9C:5E:84:88:82:14:23
+amazonrootca1 [jdk], Feb 7, 2023, trustedCertEntry, 
+Certificate fingerprint (SHA-256): 8E:CD:E6:88:4F:3D:87:B1:12:5B:A3:1A:C3:FC:B1:3D:70:16:DE:7F:57:CC:90:4F:E1:CB:97:C6:AE:98:19:6E
+amazonrootca2 [jdk], Feb 7, 2023, trustedCertEntry, 
+Certificate fingerprint (SHA-256): 1B:A5:B2:AA:8C:65:40:1A:82:96:01:18:F8:0B:EC:4F:62:30:4D:83:CE:C4:71:3A:19:C3:9C:01:1E:A4:6D:B4
+amazonrootca3 [jdk], Feb 7, 2023, trustedCertEntry, 
+Certificate fingerprint (SHA-256): 18:CE:6C:FE:7B:F1:4E:60:B2:E3:47:B8:DF:E8:68:CB:31:D0:2E:BB:3A:DA:27:15:69:F5:03:43:B4:6D:B3:A4
+amazonrootca4 [jdk], Feb 7, 2023, trustedCertEntry, 
+Certificate fingerprint (SHA-256): E3:5D:28:41:9E:D0:20:25:CF:A6:90:38:CD:62:39:62:45:8D:A5:C6:95:FB:DE:A3:C2:2B:0B:FB:25:89:70:92
+techlin-gcp-us, Feb 7, 2023, trustedCertEntry, 
+Certificate fingerprint (SHA-256): BD:EE:04:20:B3:14:8F:B3:4E:BC:E7:D4:58:FF:23:6C:F2:11:E0:3A:EF:EB:6E:28:AA:B6:F3:6E:A3:3A:5E:1E
+</pre>
+</dd>
+
+<dt>How to import a CA cert with alias</dt>
+<dd>
+<pre>$ <tgreen>keytool -importcert -file <b>somefile.crt</b> -noprompt -alias <b>somealias</b> -cacerts</tgreen>
+</pre>
+</dd>
+
+<dt>How to delete a CA cert by alias</dt>
+<dd>
+<pre>$ <tgreen>keytool -delete -noprompt -alias <b>somealias</b> -cacerts</tgreen>
+</pre>
+</dd>
+
+</dl>
+
+</body>
+</html>
