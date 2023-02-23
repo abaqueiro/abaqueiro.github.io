@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	<meta charset="utf-8">
 	
-	<title>devops by @abaqueiro</title>
+	<title>Azure DevOps by @abaqueiro</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito&family=PT+Sans&display=swap');
 * {
@@ -103,34 +103,56 @@ tgreen {
 }
 </style>
 </head>
-
 <body>
 <div id="brand">
 	<div class="author"><a href="../index.html">Alfonso Baqueiro Bernal</a></div>
 	<div class="pub_date">Thursday May 20, 2021</div>
 </div>
 
-<h1>DevOps</h1>
+<h1>Azure DevOps</h1>
 
 <p>
-DevOps refers to a combination of philosophies, tools, and practices that help to promote an organization's ability to deliver applications and services quickly while improving products at an increased speed over companies that use traditional software development. The increased speed assists organizations in better serving their clients and customers and therefore compete more effectively in the market. Essentially, this model puts development and operations teams together so that engineers can work through the lifecycle of an application and not feel saddled into a single function or skill set.
-This helps to ensure quality applications and increase development speeds.
+It is the Microsoft platform to acomplish DevOps tasks. You know, that things about CD CI.
 </p>
 
-<h2>Tools</h2>
+<h2>Some concepts</h2>
 
-<dt>Azure DevOps</dt>
+<dt>Continuous Delivery (CD)</dt>
 <dd>
-	<a target="_blank" href="azure-devops.html">NOTES</a>
+Continuous delivery (CD) is a process by which code is built, tested, and deployed
+to one or more test and production stages. Deploying and testing in multiple stages
+helps drive quality. Continuous integration systems produce deployable artifacts,
+which include infrastructure and apps. Automated release pipelines consume these
+artifacts to release new versions and fixes to existing systems.<br>
+Monitoring and alerting systems run constantly to drive visibility into the entire
+CD process. This process ensures that errors are caught often and early.
 </dd>
 
-<dt>Jenkins</dt>
-<dd></dd>
-
-<dt>PagerDuty</dt>
+<dt>Continuous Integration (CI)</dt>
 <dd>
-	Monitoring and incident management SaaS <a target="_blank" href="https://www.pagerduty.com/weekly-demo">Demo Video</a>
+Continuous integration (CI) is the practice used by development teams to simplify
+the testing and building of code. CI helps to catch bugs or problems early in the
+development cycle, which makes them easier and faster to fix. Automated tests
+and builds are run as part of the CI process. The process can run on a set
+schedule, whenever code is pushed, or both. Items known as artifacts are produced
+from CI systems.<br>
+They're used by the continuous delivery release pipelines to drive automatia
+deployments.
 </dd>
+
+<p>
+<a target="_blank"
+href="https://learn.microsoft.com/en-us/azure/devops/pipelines/get-started/key-pipelines-concepts?view=azure-devops">
+Azure Key Concepts
+</a>
+</p>
+
+<p>
+<a target="_blank"
+href="https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/?view=azure-pipelines&viewFallbackFrom=azure-devops">
+Azure Pipelines Task Reference
+</a>
+</p>
 
 </body>
 </html>
