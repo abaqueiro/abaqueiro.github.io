@@ -16,3 +16,41 @@ body {
 	border: 1px solid gray;
 	box-shadow: 10px 10px 12px gray;
 }
+
+h1 {
+	color: #a32cc4;
+}
+h2 {
+	color: #8B008B;
+}
+h3 {
+	color: #32174d;
+}
+
+pre, xmp {
+	font-family: monospace;
+	color:red;
+}
+
+/* Brand styles */
+#brand {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+#brand .author {
+	font-weight: bold;
+	display: inline-block;
+}
+#brand .pub_date {
+	float: right;
+}
+#brand a
+,#brand a:visited
+{
+	text-decoration: none;
+	color: black;
+}
+#brand a:hover {
+	color: blue;
+}
+
