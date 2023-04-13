@@ -32,6 +32,18 @@ pre, xmp {
 	color:red;
 }
 
+/* General purpose clases */
+.al {
+	text-align: left;
+}
+.ac {
+	text-align: center;
+}
+.ar {
+	text-align: right;
+}
+
+
 /* Brand styles */
 #brand {
 	border-top: 1px solid black;
