@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title></title>
+<style>
+table {
+	border-collapse: collapse;
+}
+#tblStat {
+	font-size: 26pt;
+}
+</style>
+</head>
+<body>
+
+Tamaño
+<select id="selSize">
+	<option value="3">3</option>
+	<option value="4">4</option>
+	<option value="5">5</option>
+	<option value="6">6</option>
+	<option value="7">7</option>
+	<option value="8">8</option>
+	<option value="9">9</option>
+	<option value="10">10</option>
+	<option value="11" selected>11</option>
+	<option value="12">12</option>
+	<option value="13">13</option>
+	<option value="14">14</option>
+	<option value="15">15</option>
+	<option value="16">16</option>
+	<option value="17">17</option>
+	<option value="18">18</option>
+	<option value="19">19</option>
+	<option value="20">20</option>
+</select>
+<br>
+<br>
+<table>
+	<tbody id="tblMosaic"></tbody>
+</table>
+<br>
+<br>
+<table>
+	<tbody id="tblStat"></tbody>
+</table>
+
+</body>
+<script>
+
+function g(id){
+	return document.getElementById(id)
+}
+
+function c(tagName, container){
+	var el
+	el = document.createElement(tagName)
+	if (container && container.appendChild) container.appendChild(el)
+	return el
+}
+
+var selSize = g('selSize')
+var tblMosaic = g('tblMosaic')
+var tblStat = g('tblStat')
+
+function calcColor(row, col, size){
+	var color
+
+	if (
+		row==0 && col!=0 // all row 0 but corner
+		|| row==size-1 && col!=size-1 // all last row but corner
+		|| col==0 && row!=0
+		|| col==size-1 && row!=size-1
+	){
+		color = 'white'
+	} else {
+		color = 'gray'
+	}
+
+	return color
+}
+
+function renderMosaic(){
+	var size = parseInt(selSize.value)
+	if ( isNaN(size) || size<3 || size>20 ) return
+	tblMosaic.innerHTML = ''
+	var row, col
+	var tr, td
+	var stat = { white: 0, gray: 0 }
+	var color
+	for(row=0; row<size; row++){
+		tr = c('tr',tblMosaic)
+		for(col=0; col<size; col++){
+			td = c('td',tr)
+			td.style.border = '1px solid black'
+			td.width = "20"
+			td.height = "20"
+			color = calcColor(row,col,size)
+			if ( typeof stat[color] === 'undefined' ){
+				stat[color] = 1
+			} else {
+				stat[color]++
+			}
+			td.style.backgroundColor = color
+		}
+	}
+	// render stat
+	tblStat.innerHTML = ''
+	for( key in stat ){
+		tr = c('tr',tblStat)
+		td = c('th',tr)
+			td.innerHTML = key
+		td = c('td',tr)
+			td.innerHTML = stat[key]
+	}
+}
+renderMosaic()
+
+selSize.onchange = renderMosaic
+
+</script>
+</html>
