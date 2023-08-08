@@ -1,0 +1,2084 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Docker</title>
+<style>
+body {
+	font-family: RalewayWF, Helvetica, 'Helvetica Neue', Arial, "Segoe UI", sans-serif;
+	font-weight: 300;
+}
+h2 {
+	color: darkred;
+}
+h3 {
+	color: rgb(251,0,255);
+}
+a {
+	/*
+	background-color: yellow;
+	color: black;
+	*/
+	background-color: darkblue;
+	color: white;
+	border-radius: 5px;
+	padding: 0.25em 0.5em;
+}
+a:hover {
+	background-color: blue;
+	color: white;
+}
+p {
+	margin-left: 1em;
+}
+dt {
+	color: blue;
+	font-weight: 400;
+}
+u {
+	color: blue;
+}
+pre {
+	margin-left: 3em;
+	margin-right: 3em;
+	background-color: #000;
+	color: #0f0;
+	border-radius: 0.5em;
+	padding: 1em 1em;
+	color: rgb(192,193,192);
+}
+pre b {
+	color: rgb(253,139,143);
+	color: #0f0;
+	font-weight: normal;
+}
+pre u {
+	color: rgb(253,139,143);
+	color: red;
+	color: rgb(105,138,255);
+}
+xmp {
+	margin-left: 3em;
+	margin-right: 3em;
+	background-color: #ddd;
+	color: black;
+	border: 1px solid gray;
+	border-radius: 0.5em;
+	padding: 1em;
+}
+.tip {
+	background-color: #FFF6AA;
+	color: #5C3C08;
+	border: 2px solid brown;
+	border-radius: 0.5em;
+	padding: 1em;
+}
+att {
+	color: red;
+}
+</style>
+</head>
+<body>
+
+<h1>Docker</h1>
+
+<h2>Tools</h2>
+
+<ul>
+	<li>Free Docker Environment <a target="_blank" href="https://labs.play-with-docker.com/">https://labs.play-with-docker.com/</a></li>
+</ul>
+
+
+
+
+<h2>Las tres áreas problemáticas del software</h2>
+
+<p>Algunos problemas que influyeron para la creación de <b>Docker</b>
+	<ul>
+	<li>Dificultad para levantamiento y configuración de entornos</li>
+	<li>Diferencias en los entornos por diferencias en las versiones especificas de los componentes</li>
+	<li>Falta de documentación del proceso de creación y configuración del entorno</li>
+	<li>Y por ende dificultad en la replicabilidad de entornos</li>
+	<li>El clásico problema de: <b>En mi máquina si funciona</b></li>
+	<li>Problemas de compatibilidad al distribuir el software</li>
+	</ul>
+</p>
+
+<p>Problemas del desarrollo de software
+	<ul>
+	<li>Construir software, escribir código es una pequeña parte, los problemas complejos necesitan equipos.
+		<ul>
+		<li>Entorno</li>
+		<li>Dependencias y versiones</li>
+		<li>Entorno de ejecución</li>
+		<li>Equivalencia con el entorno productivo</li>
+		<li>Servicios externos</li>
+		</ul>
+	</li>
+	<li>Distribuir software, El código se tiene que transformar en un artefacto o varios, que se puedan transportar a donde tienen que ejecutarse
+		<ul>
+		<li>Divergencia de los repositorios</li>
+		<li>Divergencia de artefactos</li>
+		<li>Versionado</li>
+		</ul>
+	</li>
+	<li>Ejecución del software, normalmente se ejecuta en un entorno diferente al de construcción
+		<ul>
+		<li>Es compatible con el entorno productivo</li>
+		<li>Dependencias</li>
+		<li>Disponibilidad de servicios externos</li>
+		<li>Recursos de hardware</li>
+		</ul>
+	</li>
+	</ul>
+</p>
+
+<p>Promesa de Docker:<br>
+<i><b>Construir, distribuir y ejecutar cualquier aplicación en cualquier lado.</b></i><br>
+Suena a java.
+</p>
+
+
+
+
+<h2>Virtualización</h2>
+
+<p>Una forma de resolver los problemas antes mencionados, es la emulación de un recurso computacional,
+en el caso de virtualización se emula computadoras completas dentro de una computadora más grande.
+</p>
+
+<p>Problemas de la virtualización
+<ul>
+<li>Almacenamiento, se ocupan muchos GBs para cada sistema operativo, se repiten muchos archivos comunes</li>
+<li>Costo de administración, se requiere administrar cada una de las máquinas</li>
+<li>Múltiples soluciones: VMWare, VirtualBox, Zen, KVM</li>
+<li>Múltiples formatos: VDI, VMDK, VHD, raw, etc</li>
+</ul>
+</p>
+
+<p>Contenedores
+	<ul>
+	<li>Flexibles</li>
+	<li>Livianos</li>
+	<li>Portables</li>
+	<li>Bajo acoplamiento</li>
+	<li>Escalables</li>
+	<li>Seguros</li>
+	</ul>
+</p>
+
+<pre><b>docker info</b>
+Client:
+ Context:    default
+ Debug Mode: false
+ Plugins:
+  buildx: Build with BuildKit (Docker Inc., v0.5.1-docker)
+  compose: Docker Compose (Docker Inc., v2.0.0-beta.6)
+  scan: Docker Scan (Docker Inc., v0.8.0)
+
+Server:
+ Containers: 2
+  Running: 1
+  Paused: 0
+  Stopped: 1
+ Images: 3
+ Server Version: 20.10.7
+ Storage Driver: overlay2
+  Backing Filesystem: extfs
+  Supports d_type: true
+  Native Overlay Diff: true
+  userxattr: false
+ Logging Driver: json-file
+ Cgroup Driver: cgroupfs
+ Cgroup Version: 1
+ Plugins:
+  Volume: local
+  Network: bridge host ipvlan macvlan null overlay
+  Log: awslogs fluentd gcplogs gelf journald json-file local logentries splunk syslog
+ Swarm: inactive
+ Runtimes: io.containerd.runc.v2 io.containerd.runtime.v1.linux runc
+ Default Runtime: runc
+ Init Binary: docker-init
+ containerd version: d71fcd7d8303cbf684402823e425e9dd2e99285d
+ runc version: b9ee9c6314599f1b4a7f497e1f1f856fe433d3b7
+ init version: de40ad0
+ Security Options:
+  seccomp
+   Profile: default
+ Kernel Version: 5.10.16.3-microsoft-standard-WSL2
+ Operating System: Docker Desktop
+ OSType: linux
+ Architecture: x86_64
+ CPUs: 16
+ Total Memory: 11.95GiB
+ Name: docker-desktop
+ ID: WZLE:RNY4:ZHJQ:OGFA:IEU2:I3W3:MBE6:PUVM:I6EU:4GCE:R7SP:C7ZL
+ Docker Root Dir: /var/lib/docker
+ Debug Mode: false
+ Registry: https://index.docker.io/v1/
+ Labels:
+ Experimental: false
+ Insecure Registries:
+  127.0.0.0/8
+ Live Restore Enabled: false
+
+WARNING: No blkio throttle.read_bps_device support
+WARNING: No blkio throttle.write_bps_device support
+WARNING: No blkio throttle.read_iops_device support
+WARNING: No blkio throttle.write_iops_device support
+</pre>
+
+
+
+
+<h2>Docker Architecture</h2>
+
+<p>
+<img src="img/docker-architecture.png">
+</p>
+
+<h2>Nomenclatura para especificar una imagen:</h2>
+
+<ul>
+	<li>$REGISTRY/$USER/$REPOSITORY:$TAG</li>
+	<li>$USER/$REPOSITORY:$TAG</li>
+	<li>$REPOSITORY:$TAG</li>
+	<li>$REPOSITORY</li>
+</ul>
+
+<h2>El comando más usado</h2>
+
+<p>
+Listar contenedores en ejecución
+<pre><b>docker ps</b></pre>
+</p>
+
+<p>
+Listar contenedores incluidos los detenidos
+<pre><b>docker ps -a</b></pre>
+</p>
+
+<h2>El proceso principal y parada de contenedor</h2>
+
+<p>
+Para crear e iniciar (create and start) un contenedor se puede usar el método run
+<pre><b>docker run <u>$IMAGE</u> <u>$COMMAND</u></b></pre>
+</p>
+
+<p>
+A menudo un problema típico cuando uno empieza con Docker es que arrancamos un contenedor y este arranca y se detiene justo después de arrancar.
+<br>Esto se debe a que a diferencia de una VM, docker corre el contenedor como un árbol de procesos, a partir de un proceso principal.
+<br>Al momento que termina el proceso principal, el contenedor es terminado.
+<br>El proceso principal se especifica con el parametro <b>COMMAND</b> al hacer <b>create</b> o <b>run</b>.
+<br>Como se verá más adelante también se puede indicar mediante una combinación de <b>ENTRYPOINT</b> y <b>COMMAND</b>.
+</p>
+
+<p>
+Ejemplos de inicio de contenedores con terminación inmediata
+<pre>docker run debian</pre>
+<pre>docker run debian /bin/bash</pre>
+</p>
+
+<p>
+La opción <b>-t</b> permite asignar una terminal al contenedor, la cual será asociada a la terminal donde lo arrancamos. Sin embargo al no ser interactiva no se envian nuestras pulsaciones de tecla, por lo que la terminal queda como congelada (no recibe entrada del teclado).
+<pre><b>docker run -t debian bash</b>
+root@04a9fa415379:/#
+</pre>
+</p>
+
+<p>
+La opción <b>-i</b> nos permite indicar que el contenedor corre en modo interactivo, es decir recibe entrada del teclado, sin embargo al no asociar a una tty no se puede interactuar correctamente.
+<pre><b>docker run -i debian bash</b>
+oeauoeuoeu
+bash: line 1: $'oeauoeuoeu\r': command not found
+ls
+bash: line 2: $'ls\r': command not found
+who
+bash: line 3: $'who\r': command not found
+echo
+bash: line 4: $'echo\r': command not found
+/bin/bash
+: No such file or directory
+bash: line 6: $'\r': command not found
+</pre>
+</p>
+
+<p>
+Al arrancar un contenedor podemos solicitar que sea interactivo y que se genere y asocie una tty con la terminal que estamos utilizando, combinando los dos modificadores anteriormente explicados.
+<br>La terminal queda asociada y al terminar el proceso bash, con exit el contenedor es terminado.
+
+<pre><b>docker run -it debian bash</b>
+root@742234a35dc9:/# ls -lh
+total 64K
+drwxr-xr-x   2 root root 4.0K Aug 16 00:00 bin
+drwxr-xr-x   2 root root 4.0K Apr 10 20:15 boot
+drwxr-xr-x   5 root root  360 Aug 20 01:23 dev
+drwxr-xr-x   1 root root 4.0K Aug 20 01:23 etc
+drwxr-xr-x   2 root root 4.0K Apr 10 20:15 home
+drwxr-xr-x   8 root root 4.0K Aug 16 00:00 lib
+drwxr-xr-x   2 root root 4.0K Aug 16 00:00 lib64
+drwxr-xr-x   2 root root 4.0K Aug 16 00:00 media
+drwxr-xr-x   2 root root 4.0K Aug 16 00:00 mnt
+drwxr-xr-x   2 root root 4.0K Aug 16 00:00 opt
+dr-xr-xr-x 288 root root    0 Aug 20 01:23 proc
+drwx------   2 root root 4.0K Aug 16 00:00 root
+drwxr-xr-x   3 root root 4.0K Aug 16 00:00 run
+drwxr-xr-x   2 root root 4.0K Aug 16 00:00 sbin
+drwxr-xr-x   2 root root 4.0K Aug 16 00:00 srv
+dr-xr-xr-x  11 root root    0 Aug 20 01:23 sys
+drwxrwxrwt   2 root root 4.0K Aug 16 00:00 tmp
+drwxr-xr-x  11 root root 4.0K Aug 16 00:00 usr
+drwxr-xr-x  11 root root 4.0K Aug 16 00:00 var
+root@742234a35dc9:/# <b>exit</b>
+exit
+
+alfonso.baqueiro@laptop ~
+</pre>
+</p>
+
+<p>Para no bloquear la terminal es necesario desasociarlo con la opción <b>-d</b>, de igual forma se requiere <b>-it</b> para que bash se quede a la espera de comando y no sea terminado.
+<pre>
+<b>docker run -d -it debian bash</b>
+89d65fbbd8f2c22d03105c90fb6ec89a13420a869a9f72f0e8dbbada0f502342
+$ <b>docker ps</b>
+CONTAINER ID   IMAGE     COMMAND   CREATED         STATUS         PORTS     NAMES
+89d65fbbd8f2   debian    "bash"    6 seconds ago   Up 5 seconds             affectionate_heisenberg
+</pre>
+</p>
+
+<h3>Nombrar el contenedor</h3>
+
+<p>
+Como se puede ver docker nombra al contenedor con un nombre aleatorio, si queremos nombrarlo usamos la opción <b>--name</b>
+</p>
+<pre>
+<b>docker run --name <u>ponche</u> -it -d debian</b>
+694af83771e38cb00b8426bbd89ac1a9135b05ecc53292ba7af4419c74780b99
+$ <b>docker ps -a</b>
+CONTAINER ID   IMAGE                               COMMAND                  CREATED         STATUS                     PORTS                               NAMES
+694af83771e3   debian                              "bash"                   4 seconds ago   Up 3 seconds                                                   ponche
+$
+</pre>
+
+<p>
+<b>bash</b> es el COMMAND por defecto, como podemos comprobar el contenedor permanece corriendo y la terminal es liberada
+<br>Para acceder al bash del proceso principal podemos usar <b>attach</b>.
+<br>Si salimos del bash, al ser el proceso main, se detiene el contenedor.
+</p>
+<pre>
+<b>docker container attach <u>ponche</u></b>
+root@694af83771e3:/# <b>exit</b>
+exit
+$ <b>docker ps -a</b>
+CONTAINER ID   IMAGE                               COMMAND                  CREATED          STATUS                      PORTS                               NAMES
+694af83771e3   debian                              "bash"                   10 minutes ago   Exited (0) 14 seconds ago                                       ponche
+</pre>
+
+<p>
+Para volver a arrancar el contenedor usamos <b>start</b>
+</p>
+<pre><b>docker start <u>ponche</u></b>
+ponche
+$ <b>docker ps -a</b>
+CONTAINER ID   IMAGE                               COMMAND                  CREATED          STATUS                     PORTS                               NAMES
+694af83771e3   debian                              "bash"                   15 minutes ago   Up 4 seconds                                                   ponche
+</pre>
+
+<p>
+Para ejecutar otro comando en un contenedor<b>exec</b> si el comando termina regresa el control al anfitrión.
+</p>
+<pre>
+<b>docker exec ponche <u>cat /etc/passwd</u></b></b>
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+_apt:x:100:65534::/nonexistent:/usr/sbin/nologin
+</pre>
+<p>
+Se puede usar para obtener un shell bash adicional, pero para salga de inmediato es necesario crear un tty en modo interactivo.
+</p>
+<pre>
+<b>docker exec -it <u>ponche</u> bash</b>
+root@694af83771e3:/# <b>apt update</b>
+Get:1 http://deb.debian.org/debian bullseye InRelease [113 kB]
+Get:2 http://security.debian.org/debian-security bullseye-security InRelease [44.1 kB]
+Get:3 http://security.debian.org/debian-security bullseye-security/main amd64 Packages [25.8 kB]
+Get:4 http://deb.debian.org/debian bullseye-updates InRelease [36.8 kB]
+Get:5 http://deb.debian.org/debian bullseye/main amd64 Packages [8178 kB]
+Fetched 8397 kB in 7s (1120 kB/s)
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+All packages are up to date.
+root@694af83771e3:/# <b>apt install htop</b>
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following additional packages will be installed:
+  libgpm2 libncursesw6 libnl-3-200 libnl-genl-3-200
+Suggested packages:
+  lm-sensors lsof strace gpm
+The following NEW packages will be installed:
+  htop libgpm2 libncursesw6 libnl-3-200 libnl-genl-3-200
+0 upgraded, 5 newly installed, 0 to remove and 0 not upgraded.
+Need to get 379 kB of archives.
+After this operation, 1070 kB of additional disk space will be used.
+Do you want to continue? [Y/n]
+Get:1 http://deb.debian.org/debian bullseye/main amd64 libncursesw6 amd64 6.2+20201114-2 [132 kB]
+Get:2 http://deb.debian.org/debian bullseye/main amd64 libnl-3-200 amd64 3.4.0-1+b1 [63.6 kB]
+Get:3 http://deb.debian.org/debian bullseye/main amd64 libnl-genl-3-200 amd64 3.4.0-1+b1 [21.2 kB]
+Get:4 http://deb.debian.org/debian bullseye/main amd64 htop amd64 3.0.5-7 [127 kB]
+Get:5 http://deb.debian.org/debian bullseye/main amd64 libgpm2 amd64 1.20.7-8 [35.6 kB]
+Fetched 379 kB in 1s (632 kB/s)
+debconf: delaying package configuration, since apt-utils is not installed
+Selecting previously unselected package libncursesw6:amd64.
+(Reading database ... 6653 files and directories currently installed.)
+Preparing to unpack .../libncursesw6_6.2+20201114-2_amd64.deb ...
+Unpacking libncursesw6:amd64 (6.2+20201114-2) ...
+Selecting previously unselected package libnl-3-200:amd64.
+Preparing to unpack .../libnl-3-200_3.4.0-1+b1_amd64.deb ...
+Unpacking libnl-3-200:amd64 (3.4.0-1+b1) ...
+Selecting previously unselected package libnl-genl-3-200:amd64.
+Preparing to unpack .../libnl-genl-3-200_3.4.0-1+b1_amd64.deb ...
+Unpacking libnl-genl-3-200:amd64 (3.4.0-1+b1) ...
+Selecting previously unselected package htop.
+Preparing to unpack .../htop_3.0.5-7_amd64.deb ...
+Unpacking htop (3.0.5-7) ...
+Selecting previously unselected package libgpm2:amd64.
+Preparing to unpack .../libgpm2_1.20.7-8_amd64.deb ...
+Unpacking libgpm2:amd64 (1.20.7-8) ...
+Setting up libgpm2:amd64 (1.20.7-8) ...
+Setting up libncursesw6:amd64 (6.2+20201114-2) ...
+Setting up libnl-3-200:amd64 (3.4.0-1+b1) ...
+Setting up libnl-genl-3-200:amd64 (3.4.0-1+b1) ...
+Setting up htop (3.0.5-7) ...
+Processing triggers for libc-bin (2.31-13) ...
+root@694af83771e3:/# <b>exit</b>
+</pre>
+
+<p>
+Correr por ejemplo htop dentro del contenedor
+</p>
+<pre><b>docker exec <u>ponche</u> htop</b>
+Error opening terminal: unknown.
+</pre>
+<p>
+Hay que recordar que por eso es necesario usar <b>-it</b>. (Para salir de htop presionar la tecla q).
+</p>
+<pre><b>docker exec -it <u>ponche</u> htop</b>
+    0[                                    0.0%]    4[                                    0.0%]     8[                                    0.0%]   12[                                    0.0%]
+    1[                                    0.0%]    5[                                    0.0%]     9[                                    0.0%]   13[                                    0.0%]
+    2[|                                   0.7%]    6[|                                   0.7%]    10[                                    0.0%]   14[                                    0.0%]
+    3[                                    0.0%]    7[                                    0.0%]    11[                                    0.0%]   15[                                    0.0%]
+  Mem[||||||||||||||||||||||||||||                                                1.11G/12.0G]   Tasks: 2, 0 thr; 1 running
+  Swp[                                                                               0K/4.00G]   Load average: 0.02 0.03 0.48
+                                                                                                 Uptime: 3 days, 15:15:55
+
+  PID USER      PRI  NI  VIRT   RES   SHR S CPU%-MEM%   TIME+  Command
+    1 root       20   0  3964  3284  2852 S  0.0  0.0  0:00.02 bash
+  343 root       20   0  5636  3988  2964 R  0.0  0.0  0:00.02 htop
+</pre>
+
+<p>
+Para detener un contenedor usamos <b>stop</b>
+</p>
+<pre>
+<b>docker stop <u>ponche</u></b>
+ponche
+$ docker ps -a
+CONTAINER ID   IMAGE                               COMMAND                  CREATED          STATUS                       PORTS                               NAMES
+694af83771e3   debian                              "bash"                   37 minutes ago   Exited (137) 4 seconds ago                                       ponche
+</pre>
+
+<p>
+Matar un contenedor por la mala SIGKILL <b>kill</b>, check exit code 137 - 128 = 9, o sea recibio la SIGKILL que es 9
+</p>
+<pre>
+<b>docker kill <u>ponche</u></b>
+ponche
+$ docker ps -a
+CONTAINER ID   IMAGE                               COMMAND                  CREATED          STATUS                       PORTS                               NAMES
+694af83771e3   debian                              "bash"                   37 minutes ago   <att>Exited (137)</att> 4 seconds ago                                       ponche
+</pre>
+
+<p>
+Para borrar un contenedor que se encuentra ejecutandose
+</p>
+<pre>
+<b>docker rm -f <u>$CONTAINER</u></b>
+</pre>
+
+<p>
+Para borrar un contenedor que esta parado
+</p>
+<pre>
+<b>docker rm <u>$CONTAINER</u></b>
+</pre>
+
+<p>
+Ejecutar un comando en un contenedor en ejecución
+</p>
+<pre>
+<b>docker exec -it <u>$CONTAINER</u> <u>$COMMAND</u></b>
+</pre>
+
+
+
+
+<h2>Algunos trucos para arrancar contenedores</h2>
+
+<p>Crear un contenedor que se detenga después de N segundos usando como proceso <b>sleep N</b> ej. de un contenedor que se detiene tras 600 segundos
+<pre>
+docker run -d debian <b>sleep 600</b>
+</pre>
+</p>
+
+<p>
+Podemos hacer que se autodestruya si incluimos --rm
+<pre>
+docker run <b>--rm</b> -d debian sleep 600
+</pre>
+</p>
+
+<p>
+Usar como proceso principal un proceso que no termine para que el contenedor siga ejecutandose ej.
+</p>
+<pre>docker run -d debian <b>tail -f /dev/null</b></pre>
+<pre>docker run -d debian <b>tail -f -n0 /etc/passwd</b></pre>
+
+<p>
+Por supuesto que lo más simple es correr un terminal interactivo detachado <b>-dit</b>que se mantenga como proceso main (bash).
+</p>
+<pre><b>docker run -dit debian</b></pre>
+
+
+
+
+<h2>Exponiendo contenedores</h2>
+
+<pre><b>docker run -d --name proxy nginx</b>
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS     NAMES
+c2e3294cc58f   nginx     "/docker-entrypoint.…"   3 minutes ago    Up 3 minutes    80/tcp    proxy
+
+# delete running container
+docker rm -f proxy
+
+# export a port
+docker run --name proxy -p 8080:80 nginx
+
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                  NAMES
+e6c96e20008b   nginx     "/docker-entrypoint.…"   2 seconds ago    Up 2 seconds    0.0.0.0:8080->80/tcp   proxy
+
+# mirar logs
+docker logs proxy
+proxy container logs
+...
+
+# dar seguimiento a logs
+docker logs -f proxy
+
+# solo las ultimas lineas
+docker logs --tail $N_LINES -f proxy
+</pre>
+
+
+
+
+<h2>Bind mounts</h2>
+
+<xmp>docker run -d --name mungus mongo
+
+docker exec -it mungus bash
+# inside run mongo and run
+mongo
+show dbs
+use platzi
+db.user.insert({"name":"Poncho"})
+db.user.insert({"name":"Felipe"})
+db.user.insert({"name":"Susan"})
+db.user.insert({"name":"Poncho"})
+
+db.user.find()
+
+# en el host
+mkdir docker-data
+docker cp mungus:/data/db docker-data/data/
+
+# destruir el contenedor
+docker rm -f mungus
+
+# montar con un bind
+docker run -d --name mungus -v /root/docker-data/data/db:/data/db mongo
+</xmp>
+
+
+
+
+<h2>Volumes</h2>
+
+<xmp>docker stop mungus
+
+docker volume list
+DRIVER    VOLUME NAME
+local     8a3afbb0a223223fc8fdfdc980f784cf979f361967db34317264dfadd90a9ff1
+local     269081a9cc1eef4fd84abbfc4fd4edced7af6e7da77e56c688b02c64e3e1d2e4
+local     e0ea55d7558955046e3cf446ceeaa7181543e3a88a4b50dabb4dd43294425445
+
+docker volume create mungus-data-db
+RIVER    VOLUME NAME
+local     8a3afbb0a223223fc8fdfdc980f784cf979f361967db34317264dfadd90a9ff1
+local     269081a9cc1eef4fd84abbfc4fd4edced7af6e7da77e56c688b02c64e3e1d2e4
+local     e0ea55d7558955046e3cf446ceeaa7181543e3a88a4b50dabb4dd43294425445
+local     mungus-data-db
+
+# creamos el contenedor con un volumen
+docker -d --name mungus --mount src=mungus-data-db,dst=/data/db mongo
+
+# checando la config del contenedor
+docker inspect mungus
+# si observamos podemos encontrar donde coloca los archivos
+"Mounts": [
+            {
+                "Type": "volume",
+                "Name": "mungus-data-db",
+                "Source": "/var/lib/docker/volumes/mungus-data-db/_data",
+                "Destination": "/data/db",
+                "Driver": "local",
+                "Mode": "z",
+                "RW": true,
+                "Propagation": ""
+            },
+            {
+                "Type": "volume",
+                "Name": "d803888dd915be4a5c9f932d7e0e75bbf1a0ede9d4b21173c9658c0d1bd08c36",
+                "Source": "/var/lib/docker/volumes/d803888dd915be4a5c9f932d7e0e75bbf1a0ede9d4b21173c9658c0d1bd08c36/_data",
+                "Destination": "/data/configdb",
+                "Driver": "local",
+                "Mode": "",
+                "RW": true,
+                "Propagation": ""
+            }
+        ],
+</xmp>
+
+<p class="tip">Si inspeccionamos un volume, vemos que contiene la ruta donde se guardan los datos, ej: <code>/var/lib/docker/volumes/mungus-data-db/_data</code>
+en windows se guarda en <br>
+<code>C:\Users\<u>$USER</u>\AppData\Local\Docker\wsl\data\</code><br>
+al parecer dentro de un archivo ext4.vhdx
+</p>
+
+<p>Hay otro tipo de mount <b>tmpfs mount</b>, el cúal es volatil pero solo funciona en linux
+</p>
+
+
+
+
+<h2>Copiar archivos de y hacia un contenedor</h2>
+
+<p>
+Se puede usar para copiar archivos de o hacía un contenedor, util para inyectar o extraer datos
+</p>
+<pre><b>docker cp <u>$SOURCE</u> <u>$DESTINATION</u></b>
+
+# $SOURCE and $DESTINATION pueden ser
+# CONTAINER:PATH or PATH
+# se puede usar aún si el contenedor esta parado
+</pre>
+
+
+
+
+<h2>Crear contenedor pero no arrancarlo</h2>
+
+<pre>
+<b>docker create --name <u>mungus</u> --mount src=<u>mungus-data-db</u>,dst=<u>/data/db</u> <u>mongo</u></b>
+533d964c1c49b15507711f2df80b94bdd950069cab87f5fa9f5bf765b720e6a6
+
+<b>docker ps -a</b>
+CONTAINER ID   IMAGE                               COMMAND                  CREATED              STATUS                      PORTS                               NAMES
+533d964c1c49   mongo                               "docker-entrypoint.s…"   About a minute ago   Created                                                         mungus
+</pre>
+
+
+
+
+<h2>Images</h2>
+
+<p>
+<a target="_blank" href="https://hub.docker.com/">https://hub.docker.com/</a>
+es el <b>registry</b> oficial de imagenes, aúnque es posible añadir otros <b>registry</b>
+</p>
+
+<p><b>TAG</b> es la versión, si no ponemos usa <b>latest</b> por omisión</p>
+
+<pre>
+<b>docker image list</b>
+REPOSITORY   TAG                       IMAGE ID       CREATED        SIZE
+debian       latest                    fe3c5de03486   20 hours ago   124MB
+mongo        latest                    269b735e72cb   12 days ago    682MB
+abaqueiro    jessie-apache-php5.6.40   4fd786ff7d56   13 days ago    500MB
+ubuntu       latest                    1318b700e415   3 weeks ago    72.8MB
+php          5.6.40-apache-jessie      d34f09f63596   2 years ago    374MB
+</pre>
+
+
+
+
+<pre>
+<b>docker image pull <u>debian:buster</u></b>
+buster: Pulling from library/debian
+1cfaf5c6f756: Pull complete
+Digest: sha256:e2fe52e17d649812bddcac07faf16f33542129a59b2c1c59b39a436754b7f146
+Status: Downloaded newer image for debian:buster
+docker.io/library/debian:buster
+
+<b>docker image list</b>
+REPOSITORY   TAG                       IMAGE ID       CREATED        SIZE
+debian       buster                    63652705977d   20 hours ago   114MB
+debian       latest                    fe3c5de03486   20 hours ago   124MB
+mongo        latest                    269b735e72cb   12 days ago    682MB
+abaqueiro    jessie-apache-php5.6.40   4fd786ff7d56   13 days ago    500MB
+ubuntu       latest                    1318b700e415   3 weeks ago    72.8MB
+php          5.6.40-apache-jessie      d34f09f63596   2 years ago    374MB
+</pre>
+
+<!--
+set +e
+
+mkdir -p docker/debian-with-tools
+cd docker/debian-with-tools
+
+cat - << "EoF" > Dockerfile
+FROM debian:10.10-slim
+RUN touch /root/poncho-was-here
+EoF
+
+docker build -t debian:10.10-slim-with-tools .
+
+docker tag debian:10.10-slim-with-tools abaqueiro/debian:10.10-slim-with-tools
+
+docker login
+
+docker push
+-->
+
+<h2>Particularidades de Docker Images</h2>
+
+<p>
+Una imagen es un conjunto de capas ordenado o apilado<br>
+<img src="img/docker-image-layers.png">
+</p>
+
+<p>
+Listar las imagenes actualmente disponibles
+</p>
+<pre>
+<b>docker image list</b>
+REPOSITORY       TAG                       IMAGE ID       CREATED        SIZE
+debian           buster                    63652705977d   25 hours ago   114MB
+debian           latest                    fe3c5de03486   25 hours ago   124MB
+mongo            latest                    269b735e72cb   12 days ago    682MB
+abaqueiro        jessie-apache-php5.6.40   4fd786ff7d56   2 weeks ago    500MB
+ubuntu           latest                    1318b700e415   3 weeks ago    72.8MB
+wagoodman/dive   latest                    822b23d200a3   5 months ago   82.4MB
+php              5.6.40-apache-jessie      d34f09f63596   2 years ago    374MB
+</pre>
+
+<p>
+Traer una imagen al cache de imagenes
+</p>
+<pre><b>docker image pull <u>$IMAGE</u></b></pre>
+<pre>
+<b>docker image pull <u>ubuntu:18.04</u></b>
+18.04: Pulling from library/ubuntu
+feac53061382: Pull complete
+Digest: sha256:7bd7a9ca99f868bf69c4b6212f64f2af8e243f97ba13abb3e641e03a7ceb59e8
+Status: Downloaded newer image for ubuntu:18.04
+docker.io/library/ubuntu:18.04
+</pre>
+
+<p>
+Podemos mostrar la historia de una imagen para ver como ha sido construida
+</p>
+<pre><b>docker image history <u>$IMAGE</u></b></pre>
+<pre>
+<b>docker image history <u>httpd</u></b>
+IMAGE          CREATED      CREATED BY                                      SIZE      COMMENT
+c8ca530172a8   2 days ago   /bin/sh -c #(nop)  CMD ["httpd-foreground"]     0B
+<missing>      2 days ago   /bin/sh -c #(nop)  EXPOSE 80                    0B
+<missing>      2 days ago   /bin/sh -c #(nop) COPY file:c432ff61c4993ecd…   138B
+<missing>      2 days ago   /bin/sh -c #(nop)  STOPSIGNAL SIGWINCH          0B
+<missing>      2 days ago   /bin/sh -c set -eux;   savedAptMark="$(apt-m…   61.2MB
+<missing>      2 days ago   /bin/sh -c #(nop)  ENV HTTPD_PATCHES=           0B
+<missing>      2 days ago   /bin/sh -c #(nop)  ENV HTTPD_SHA256=1bc826e7…   0B
+<missing>      2 days ago   /bin/sh -c #(nop)  ENV HTTPD_VERSION=2.4.48     0B
+<missing>      2 days ago   /bin/sh -c set -eux;  apt-get update;  apt-g…   7.38MB
+<missing>      2 days ago   /bin/sh -c #(nop) WORKDIR /usr/local/apache2    0B
+<missing>      2 days ago   /bin/sh -c mkdir -p "$HTTPD_PREFIX"  && chow…   0B
+<missing>      2 days ago   /bin/sh -c #(nop)  ENV PATH=/usr/local/apach…   0B
+<missing>      2 days ago   /bin/sh -c #(nop)  ENV HTTPD_PREFIX=/usr/loc…   0B
+<missing>      3 days ago   /bin/sh -c #(nop)  CMD ["bash"]                 0B
+<missing>      3 days ago   /bin/sh -c #(nop) ADD file:87b4e60fe3af680c6…   69.3MB
+</pre>
+
+
+
+
+<h3>DIVE: Herramienta de exploracion de docker images</h3>
+
+<p><a target="_blank" href="https://github.com/wagoodman/dive">https://github.com/wagoodman/dive</a>
+Esta herramienta es un programa escrito en GO que permite explorar como esta construida una imagen $IMAGE
+<br><br>Podemos correrla como imagen de docker:
+</p>
+<pre><b>docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock wagoodman/dive:latest <u>$IMAGE</u></b></pre>
+
+<!--
+
+docker compose
+
+docker-compose.yml
+version: "3.8"
+services:
+	app:
+		image: ponchoapp
+		environment:
+			MONGO_URL: "mongodb://db:27017/test"
+		depends_on:
+			- db
+		ports:
+			- "3000:3000"
+	
+	db:
+		image: mongo
+
+docker-compose up
+
+docker-compose up -d
+
+git  clone  git@github.com:platzi/docker
+
+docker-compose ps
+
+docker-compose logs -f app
+
+docker-compose exec $CONTAINER bash
+
+docker-compose down
+
+docker-compose.yml
+version: "3.8"
+services:
+	app:
+		build: .
+		environment:
+			MONGO_URL: "mongodb://db:27017/test"
+		depends_on:
+			- db
+		ports:
+			- "3000:3000"
+
+	db:
+		image: mongo
+
+docker-compose build
+docker-compose up
+
+docker-compose build app
+
+Si te das cuenta, es mucho orientar el trabajo a arquitecturas completas que implican varios servicios,
+incluida la automatización de la creación y levantado de dichos servicios, así como su destrucción.
+
+Añadimos un volumen
+docker-compose.yml
+version: "3.8"
+services:
+	app:
+		build: .
+		environment:
+			MONGO_URL: "mongodb://db:27017/test"
+		depends_on:
+			- db
+		ports:
+			- "3000:3000"
+		volumes:
+			- .:/usr/src
+	
+	db:
+		image: mongo
+
+experimentar si el compose crea los contenedores docker pertinentes
+
+docker-compose ps
+
+docker-compose logs app
+
+Merge de filesystems ignorando directorios
+docker-compose.yml
+version: "3.8"
+services:
+	app:
+		build: .
+		environment:
+			MONGO_URL: "mongodb://db:27017/test"
+		depends_on:
+			- db
+		ports:
+			- "3000:3000"
+		volumes:
+			- .:/usr/src
+			- /usr/src/node_modules
+	
+	db:
+		image: mongo
+
+Podemos cambiar el command
+docker-compose.yml
+version: "3.8"
+services:
+	app:
+		build: .
+		environment:
+			MONGO_URL: "mongodb://db:27017/test"
+		depends_on:
+			- db
+		ports:
+			- "3000:3000"
+		volumes:
+			- .:/usr/src
+			- /usr/src/node_modules
+		command: nodemon index.js
+
+	db:
+		image: mongo
+
+Cuando trabajas en equipo es normal añadir al repositorio el docker-compose.yml
+Pero también queremos toquetear en nuestro ambiente el archivo
+docker-compose permite hacer el override para estos casos
+
+Para ello hacemos un
+touch docker-compose.override.yml en el directorio donde se encuentra docker-compose.yml
+se combina, a modo como lo hace el CSS
+
+docker-compose antes se llamaba fig
+fig es un alias de docker-compose
+
+<h2>Escalado con docker-compose</h2>
+
+Ej. quiero que haya 2 instancias de app
+
+docker-compose up -d --scale app=2
+
+
+-->
+
+<h2>Docker avanzado</h2>
+
+<h3>Sacando la basura</h3>
+
+<p>
+Listar ids de contenedores
+<pre><b>docker ps -aq</b>
+7ca393266942
+533d964c1c49
+6103e041fff3
+fa82169f5e33
+8214592c1bd7
+452a600e3c5e
+</pre>
+</p>
+
+<p>
+Para borrar un contenedor que se encuentra corriendo podemos usar
+<pre><b>docker rm -f <u>$CONTAINER</u></b></pre>
+</p>
+
+<p>
+Podemos hacer una combinacion para borrar todo aún cuando estén corriendo
+<pre><b>docker rm -f $(docker ps -aq)</b></pre>
+</p>
+
+<p>
+El comando prune funciona con cualquier elemento
+<pre><b>docker image prune</b></pre>
+<pre><b>docker network prune</b></pre>
+<pre><b>docker volume prune</b></pre>
+</p>
+
+<p>
+Incluso si queremos hacer una limpieza total
+<pre><b>docker system prune</b></pre>
+</p>
+
+<h3>Restringiendo RAM y recursos</h3>
+
+<p>
+consultar estadisticas de uso de recursos, (Ctrl+C para terminar)
+<pre><b>docker stats</b>
+CONTAINER ID   NAME          CPU %     MEM USAGE / LIMIT     MEM %     NET I/O          BLOCK I/O   PIDS
+533d964c1c49   mungus        0.62%     208.3MiB / 11.95GiB   1.70%     2.41kB / 0B      0B / 0B     34
+6103e041fff3   debeianita    0.00%     26.26MiB / 11.95GiB   0.21%     16.8MB / 300kB   0B / 0B     2
+fa82169f5e33   soyloquesoy   0.00%     876KiB / 11.95GiB     0.01%     4.14kB / 0B      0B / 0B     1
+</pre>
+</p>
+
+<p>
+restringir la memoria a 1 Gb
+<pre>docker run <b>--memory 1g</b> $IMAGE</pre>
+</p>
+
+
+
+
+<h3>Construyendo imagenes</h3>
+
+<p>Para ilustrar este punto, vamos a crear una instancia de debian versión 10</p>
+<pre>docker run -itd --name try-debian-10 debian:10</pre>
+
+<p>Nos agenciamos una shell a la instancia corriendo</p>
+<pre>docker exec -it try-debian-10 bash</pre>
+
+<h4>¿como nos ayuda docker a entender que hace el software tras bambalinas</h4>
+
+<p>Corremos comandos normales de administración de paquetes en debian</p>
+<pre>
+root@63e736f5cb4d:/# <b>apt-get update</b>
+Get:1 http://deb.debian.org/debian buster InRelease [122 kB]
+Get:2 http://security.debian.org/debian-security buster/updates InRelease [65.4 kB]
+Get:3 http://deb.debian.org/debian buster-updates InRelease [51.9 kB]
+Get:4 http://deb.debian.org/debian buster/main amd64 Packages [7907 kB]
+Get:5 http://security.debian.org/debian-security buster/updates/main amd64 Packages [301 kB]
+Get:6 http://deb.debian.org/debian buster-updates/main amd64 Packages [15.2 kB]
+Fetched 8463 kB in 3s (2541 kB/s)
+Reading package lists... Done
+</pre>
+
+<p>
+Podemos determinar exactamente que archivos genera o afecta dicho comando,
+lo que nos permite identificar que archivos se pueden borrar para optimizar
+el tamaño de nuestras imagenes, y también para aprender que sucede tras bambalinas
+</p>
+<pre>
+$ <b>docker diff try-debian-10</b>
+C /root
+A /root/.bash_history
+C /var
+C /var/lib
+C /var/lib/apt
+C /var/lib/apt/lists
+A /var/lib/apt/lists/auxfiles
+A /var/lib/apt/lists/deb.debian.org_debian_dists_buster_InRelease
+A /var/lib/apt/lists/deb.debian.org_debian_dists_buster_main_binary-amd64_Packages.lz4
+A /var/lib/apt/lists/partial
+A /var/lib/apt/lists/security.debian.org_debian-security_dists_buster_updates_main_binary-amd64_Packages.lz4
+A /var/lib/apt/lists/deb.debian.org_debian_dists_buster-updates_InRelease
+A /var/lib/apt/lists/deb.debian.org_debian_dists_buster-updates_main_binary-amd64_Packages.lz4
+A /var/lib/apt/lists/lock
+A /var/lib/apt/lists/security.debian.org_debian-security_dists_buster_updates_InRelease
+</pre>
+
+<p>
+Como es fácil observar, se afectan archivos en <b>/var/lib/apt/lists</b>
+que como es muy probable son archivos de cache, por lo que probablemente se puedan remover
+para generar una imagen compacta.
+</p>
+<pre>
+root@63e736f5cb4d:/# <b>du -hs /var/lib/apt/lists</b>
+17M     /var/lib/apt/lists
+</pre>
+
+<p>
+Podemos por ejemplo lanzar una imagen efímera para saber cuanto espacio ocupa <b>/var/lib/apt/lists</b> antes del <b>apt-get update</b>
+</p>
+<pre>
+<b>docker run --rm -it debian:10 du -hs /var/lib/apt/lists</b>
+4.0K    /var/lib/apt/lists
+</pre>
+<p>
+Lo anterior nos confirma que ese directorio se encuentra vació en un estado inicial, y por tanto se puede generar mediante <b>apt-get update</b>.
+<br>Cabe destacar el <b>derroche de poder</b>, somos como dioses de la creación y destrucción, creando o destruyendo galaxias completas.
+<br>En este caso creamos un sistema debian solo para saber cuando espacio ocupaba uno de los directorios, y luego de saber, destruimos la instancia.
+</p>
+
+<p>
+Continuando con el plan, la idea es instalar aplicaciones de uso común para desarrollo y testing como son:
+</p>
+
+<p>setup:</p>
+<pre>
+root@63e736f5cb4d:/# <b>apt-get update && apt-get install -y \
+apt-file \
+curl \
+dnsutils \
+git \
+htop \
+less \
+man \
+net-tools \
+netcat \
+nmap \
+pv \
+tree \
+unzip \
+vim \
+wget \
+zip</b>
+</pre>
+
+<h3>crear la imagen de la instancia modificada con <b>commit</b></h3>
+
+<pre>
+<b>docker commit -a <u>"Alfonso Baqueiro"</u> <u>try-debian-10</u> <i>debian-tools:10</i></b>
+sha256:f3429b20f86e006d39fcb99cb13ee98802396be76029b372617b418afe5257f7
+<b>docker image list</b>
+REPOSITORY       TAG                       IMAGE ID       CREATED          SIZE
+debian-tools     10                        f3429b20f86e   26 seconds ago   466MB
+</pre>
+
+<h3>REPLICABILIDAD, documentar mediante el Dockerfile los cambios</h3>
+
+<p>
+Todas estas moficicaciones manuales que hicimos a la instancia, se pueden hacer
+replicables y prácticamente como una receta de construcción mediante el <b>Dockerfile</b>
+</p>
+
+<xmp>FROM debian:10
+RUN apt-get update && apt-get install -y \
+	apt-file \
+	curl \
+	dnsutils \
+	git \
+	htop \
+	less \
+	man \
+	net-tools \
+	netcat \
+	nmap \
+	pv \
+	tree \
+	unzip \
+	vim \
+	wget \
+	zip
+</xmp>
+
+<p>
+Creamos la imagen mediante <b>build</b>
+</p>
+<pre><b>docker build -t <u>debian-tools:10</u> .</b>
+[+] Building 44.4s (6/6) FINISHED
+ =&gt; [internal] load build definition from Dockerfile                                                                                                                                         0.0s
+ =&gt; =&gt; transferring dockerfile: 251B                                                                                                                                                         0.0s
+ =&gt; [internal] load .dockerignore                                                                                                                                                            0.0s
+ =&gt; =&gt; transferring context: 2B                                                                                                                                                              0.0s
+ =&gt; [internal] load metadata for docker.io/library/debian:10                                                                                                                                 0.0s
+ =&gt; CACHED [1/2] FROM docker.io/library/debian:10                                                                                                                                            0.0s
+ =&gt; [2/2] RUN apt-get update &amp;&amp; apt-get install -y  apt-file  curl  dnsutils  git  htop  less  man  net-tools  netcat  nmap  pv  tree  unzip  vim  wget  zip                                42.5s
+ =&gt; exporting to image                                                                                                                                                                       1.8s
+ =&gt; =&gt; exporting layers                                                                                                                                                                      1.8s
+ =&gt; =&gt; writing image sha256:42522ffc8a73ba0d41e76cd6f1b881e1f5d668e32057ca2f7eb19b684cd91300                                                                                                 0.0s
+ =&gt; =&gt; naming to docker.io/library/debian-tools:10                                                                                                                                           0.0s
+
+Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
+</pre>
+
+<p>
+Verificamos de que tamaño ha quedado la imagen, como podemos ver ocupa 367MB vs 466MB de la imagen que hicimos usando commit
+, esto seguramente debido a archivos cache, cosa que evitamos al hacer limpia.
+</p>
+
+<pre>
+<b>docker image list</b>
+REPOSITORY       TAG                       IMAGE ID       CREATED        SIZE
+debian-tools     10                        42522ffc8a73   38 hours ago   <b>367MB</b>
+&lt;none&gt;           &lt;none&gt;                    f3429b20f86e   39 hours ago   466MB
+</pre>
+
+<p>
+Un aspecto valioso es poder compartir esta imagen, cosa que podemos hacer subiendola a docker hub
+mediante <b>push</b>
+</p>
+
+<p>Para ello necesitamos tener una cuenta, que podemos crear en hub.docker.com
+<br>Y luego hacer login mediante
+</p>
+<pre><b>docker login</b></pre>
+
+<pre>
+<b>docker push debian-tools:10</b>
+The push refers to repository [docker.io/library/debian-tools]
+40efc50d7e6b: Preparing
+c2ddc1bc2645: Preparing
+denied: requested access to the resource is denied
+</pre>
+
+<p>Esto se debe a que estamos tratando de ponerlo en el library principal,
+nos ha faltado especificar la cuenta de usuario donde se debe poner la imagen.
+</p>
+<pre>
+<b>docker push abaqueiro/debian-tools:10</b>
+The push refers to repository [docker.io/abaqueiro/debian-tools]
+An image does not exist locally with the tag: abaqueiro/debian-tools
+</pre>
+
+<p>
+No encuentra la imagen, por lo que es necesario etiquetarla
+</p>
+<pre>
+<b>docker tag debian-tools:10 abaqueiro/debian-tools:10</b>
+
+docker image list
+REPOSITORY               TAG                       IMAGE ID       CREATED        SIZE
+abaqueiro/debian-tools   10                        42522ffc8a73   39 hours ago   367MB
+</pre>
+
+<p>
+Reintentamos el push
+</p>
+<pre>
+<b>docker push abaqueiro/debian-tools:10</b>
+The push refers to repository [docker.io/abaqueiro/debian-tools]
+40efc50d7e6b: Pushed
+c2ddc1bc2645: Pushed
+10: digest: sha256:d18a263a3b0ad52f335f59cd63bfcc9d0d2e6c1526d1b6deec32a0eff75805db size: 741
+</pre>
+
+
+
+
+<h2>Docker networking</h2>
+
+<pre><b>docker network list</b>
+NETWORK ID     NAME      DRIVER    SCOPE
+610dcd163dd2   bridge    bridge    local
+3ab918f7294b   host      host      local
+89ccac87dd2e   none      null      local
+</pre>
+
+<pre><b>docker network inspect bridge</b>
+[
+    {
+        "Name": "bridge",
+        "Id": "610dcd163dd2f3391d56b1e51724f464307d2a13d9c1cdc49a263257456056a1",
+        "Created": "2021-08-22T12:44:55.04629582Z",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": null,
+            "Config": [
+                {
+                    "Subnet": "172.17.0.0/16",
+                    "Gateway": "172.17.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "45a111c7e4ab2301d8f4fa222cdac7a4a6bc2a837c9a4d8de44ef154065324b8": {
+                "Name": "platziapp",
+                "EndpointID": "6c67031fd5a66e6ca71827bf8b313c035ae3d8a5d468130d3901de5ec378c5a4",
+                "MacAddress": "02:42:ac:11:00:04",
+                "IPv4Address": "172.17.0.4/16",
+                "IPv6Address": ""
+            },
+            "533d964c1c49b15507711f2df80b94bdd950069cab87f5fa9f5bf765b720e6a6": {
+                "Name": "mungus",
+                "EndpointID": "9953358bc0e00ba0be67f34ccb54f21261618fc5e2eb65cf76484e3425d3fb65",
+                "MacAddress": "02:42:ac:11:00:03",
+                "IPv4Address": "172.17.0.3/16",
+                "IPv6Address": ""
+            },
+            "63e736f5cb4d1246984e1ffdcb0cdcbd56f8af9e53ebc900899146abda1b0e97": {
+                "Name": "try-debian-10",
+                "EndpointID": "979b35dc1821e54fa704575d09c4145d3e103da5adb65337e86f2ce4e229fbc2",
+                "MacAddress": "02:42:ac:11:00:02",
+                "IPv4Address": "172.17.0.2/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {
+            "com.docker.network.bridge.default_bridge": "true",
+            "com.docker.network.bridge.enable_icc": "true",
+            "com.docker.network.bridge.enable_ip_masquerade": "true",
+            "com.docker.network.bridge.host_binding_ipv4": "0.0.0.0",
+            "com.docker.network.bridge.name": "docker0",
+            "com.docker.network.driver.mtu": "1500"
+        },
+        "Labels": {}
+    }
+]
+</pre>
+
+<p>
+Crear una red extra
+</p>
+<pre><b>docker network create --attachable --driver=bridge --subnet=<u>172.23.0.0/16</u> --ip-range=<u>172.23.5.0/24</u> --gateway=<u>172.23.0.1</u> <u>skynet</u></b>
+31a8e6735c835159fcab3dd5a33baa4fa9cd4a52eda2067f467ab3f6c2d12f34
+
+<b>docker network list</b>
+NETWORK ID     NAME      DRIVER    SCOPE
+610dcd163dd2   bridge    bridge    local
+3ab918f7294b   host      host      local
+89ccac87dd2e   none      null      local
+31a8e6735c83   skynet    bridge    local
+
+<b>docker network inspect <u>skynet</u></b>
+[
+    {
+        "Name": "skynet",
+        "Id": "31a8e6735c835159fcab3dd5a33baa4fa9cd4a52eda2067f467ab3f6c2d12f34",
+        "Created": "2021-08-24T18:10:48.581489897Z",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.23.0.0/16",
+                    "IPRange": "172.23.5.0/24",
+                    "Gateway": "172.23.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": true,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {},
+        "Options": {},
+        "Labels": {}
+    }
+]
+
+<b>docker network connect skynet mungus</b>
+
+<b>docker network inspect skynet</b>
+[
+    {
+        "Name": "skynet",
+        "Id": "31a8e6735c835159fcab3dd5a33baa4fa9cd4a52eda2067f467ab3f6c2d12f34",
+        "Created": "2021-08-24T18:10:48.581489897Z",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.23.0.0/16",
+                    "IPRange": "172.23.5.0/24",
+                    "Gateway": "172.23.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": true,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "45a111c7e4ab2301d8f4fa222cdac7a4a6bc2a837c9a4d8de44ef154065324b8": {
+                "Name": "platziapp",
+                "EndpointID": "24f2ba319e5bef98ae3db52873e8868e7f9a8f4872066948cdf7081c7f5f5734",
+                "MacAddress": "02:42:ac:17:05:00",
+                "IPv4Address": "172.23.5.0/16",
+                "IPv6Address": ""
+            },
+            "533d964c1c49b15507711f2df80b94bdd950069cab87f5fa9f5bf765b720e6a6": {
+                "Name": "mungus",
+                "EndpointID": "f21693a794e89cbe6601f68d54b86d3db793ad062d1606b4bd9d777548607d6c",
+                "MacAddress": "02:42:ac:17:05:01",
+                "IPv4Address": "172.23.5.1/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {},
+        "Labels": {}
+    }
+]
+</pre>
+
+<p>
+Cabe destacar que si analizamos como ven la red los contenedores encontramos que se crea una interface de red adicional <b>eth1</b>
+</p>
+<pre>
+<b>docker exec -it <u>mungus</u> ifconfig</b>
+eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.17.0.3  netmask 255.255.0.0  broadcast 172.17.255.255
+        ether 02:42:ac:11:00:03  txqueuelen 0  (Ethernet)
+        RX packets 15045  bytes 19908156 (19.9 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 8085  bytes 442611 (442.6 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+<att>eth1</att>: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.23.5.1  netmask 255.255.0.0  broadcast 172.23.255.255
+        ether 02:42:ac:17:05:01  txqueuelen 0  (Ethernet)
+        RX packets 12  bytes 936 (936.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+<b>docker exec -it <u>platziapp</u> ifconfig</b>
+eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.17.0.4  netmask 255.255.0.0  broadcast 172.17.255.255
+        ether 02:42:ac:11:00:04  txqueuelen 0  (Ethernet)
+        RX packets 6070  bytes 8638989 (8.2 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 2498  bytes 137181 (133.9 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+<att>eth1</att>: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 172.23.5.0  netmask 255.255.0.0  broadcast 172.23.255.255
+        ether 02:42:ac:17:05:00  txqueuelen 0  (Ethernet)
+        RX packets 19  bytes 1522 (1.4 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+</pre>
+
+<p>
+Un aspecto interesante es que cuando creamos una red y añadimos un contenedor, docker maneja y configura un servicio de DNS para los contenedores y resuelve a IP los nombres de los contenedores
+<br>* Para correr nslookup o dig es necesario instalar en el contenedor dnsutils mediante el gestor de paquetes apt.
+</p>
+<pre>
+<b>docker exec -it platziapp nslookup <u>mungus</u></b>
+Server:         127.0.0.11
+Address:        127.0.0.11#53
+
+Non-authoritative answer:
+Name:   mungus
+Address: 172.23.5.1
+
+<b>docker exec -it platziapp ping -c 5 mungus</b>
+PING mungus (172.23.5.1) 56(84) bytes of data.
+64 bytes from mungus.skynet (172.23.5.1): icmp_seq=1 ttl=64 time=0.076 ms
+64 bytes from mungus.skynet (172.23.5.1): icmp_seq=2 ttl=64 time=0.073 ms
+64 bytes from mungus.skynet (172.23.5.1): icmp_seq=3 ttl=64 time=0.164 ms
+64 bytes from mungus.skynet (172.23.5.1): icmp_seq=4 ttl=64 time=0.101 ms
+64 bytes from mungus.skynet (172.23.5.1): icmp_seq=5 ttl=64 time=0.162 ms
+</pre>
+
+<p>
+Una última prueba será destruir la red skynet
+</p>
+<pre><b>docker network rm skynet</b>
+Error response from daemon: error while removing network: network skynet id 31a8e6735c835159fcab3dd5a33baa4fa9cd4a52eda2067f467ab3f6c2d12f34 has active endpoints
+
+<b>docker network disconnect skynet mungus</b>
+
+<b>docker network disconnect skynet platziapp</b>
+
+<b>docker network rm skynet</b>
+skynet
+</pre>
+
+
+
+<h2>Docker Compose</h2>
+
+<p>
+Ej. de archivo docker-compose.yml donde se declaran los servicios, en este caso app y db
+</p>
+<xmp>version: "3.8"
+services:
+  app:
+    image: platziapp
+    environment:
+      MONGO_URL: "mongodb://db:27017/test"
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+  db:
+    image: mongo
+</xmp>
+
+<p>
+Levantar servicios
+</p>
+<pre>
+<b>docker-compose up</b>
+</pre>
+
+<p>
+Revisamos los efectos generados por docker-compose, es decir que contenedores fueron levantados y sus recursos
+</p>
+<pre>
+<b>docker ps -a</b>
+CONTAINER ID   IMAGE                               COMMAND                  CREATED       STATUS                    PORTS                                       NAMES
+d06a807d84de   platziapp                           "docker-entrypoint.s…"   3 hours ago   Up 3 hours                0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   014-docker_app_1
+49cfe2494613   mongo                               "docker-entrypoint.s…"   3 hours ago   Up 3 hours                27017/tcp                                   014-docker_db_1
+
+<b>docker network list</b>
+NETWORK ID     NAME                 DRIVER    SCOPE
+309a7fc12128   014-docker_default   bridge    local
+
+<b>docker network inspect 014-docker_default</b>
+[
+    {
+        "Name": "014-docker_default",
+        "Id": "309a7fc1212892eae515a836ad8b33401f0d57f06f0c6d7fe45f04e6bfd2d01f",
+        "Created": "2021-08-24T19:30:30.013063875Z",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": null,
+            "Config": [
+                {
+                    "Subnet": "172.18.0.0/16",
+                    "Gateway": "172.18.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": true,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "49cfe24946135f9af38daa4159ef741640fd2fa165062217f5fb30b3d1f1294b": {
+                "Name": "014-docker_db_1",
+                "EndpointID": "b0f6c0b06089066c692ed603b487679cc353f367f865baaf9fb7acca7f2ddebb",
+                "MacAddress": "02:42:ac:12:00:02",
+                "IPv4Address": "172.18.0.2/16",
+                "IPv6Address": ""
+            },
+            "d06a807d84deade968aacd66acfec128e69b80afd63bdbab7cc5cc8683aec846": {
+                "Name": "014-docker_app_1",
+                "EndpointID": "0860f7b81488d18dc9e789539aed1cebad541e91c8e28be098dabcdaca97ff3d",
+                "MacAddress": "02:42:ac:12:00:03",
+                "IPv4Address": "172.18.0.3/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {},
+        "Labels": {
+            "com.docker.compose.network": "default",
+            "com.docker.compose.project": "014-docker",
+            "com.docker.compose.version": "1.29.2"
+        }
+    }
+]
+</pre>
+
+<p>Como ejecutamos el up attached, podemos detener los contenedores con Ctrl+C</p>
+<pre>
+<b>Ctrl+C</b>
+CHECKPOINT_PROGRESS] saving checkpoint snapshot min: 67, snapshot max: 67 snapshot count: 0, oldest timestamp: (0, 0) , meta checkpoint timestamp: (0, 0) base write gen: 1"}}
+db_1   | {"t":{"$date":"2021-08-24T22:28:34.729+00:00"},"s":"I",  "c":"STORAGE",  "id":22430,   "ctx":"Checkpointer","msg":"WiredTiger message","attr":{"message":"[1629844114:729347][1:0x7fd48afab700], WT_SESSION.checkpoint: [WT_VERB_
+CHECKPOINT_PROGRESS] saving checkpoint snapshot min: 68, snapshot max: 68 snapshot count: 0, oldest timestamp: (0, 0) , meta checkpoint timestamp: (0, 0) base write gen: 1"}}
+db_1   | {"t":{"$date":"2021-08-24T22:29:34.769+00:00"},"s":"I",  "c":"STORAGE",  "id":22430,   "ctx":"Checkpointer","msg":"WiredTiger message","attr":{"message":"[1629844174:769250][1:0x7fd48afab700], WT_SESSION.checkpoint: [WT_VERB_
+CHECKPOINT_PROGRESS] saving checkpoint snapshot min: 69, snapshot max: 69 snapshot count: 0, oldest timestamp: (0, 0) , meta checkpoint timestamp: (0, 0) base write gen: 1"}}
+Gracefully stopping... (press Ctrl+C again to force)
+Stopping 014-docker_app_1 ... done
+Stopping 014-docker_db_1  ... done
+
+<b>docker ps -a</b>
+CONTAINER ID   IMAGE                               COMMAND                  CREATED       STATUS                        PORTS                               NAMES
+d06a807d84de   platziapp                           "docker-entrypoint.s…"   3 hours ago   Exited (137) 17 seconds ago                                       014-docker_app_1
+49cfe2494613   mongo                               "docker-entrypoint.s…"   3 hours ago   Exited (0) 16 seconds ago                                         014-docker_db_1
+</pre>
+
+<p>
+Es posible correr los comandos de docker sin necesidad de siempre estar en el directorio donde se encuentran el archivo docker-compose.yml, lo vamos a hacer para ver como vuelve a levantar en modo dettached los contenedores
+</p>
+<pre>
+<b>cd ../../</b>
+
+<b>docker-compose -f <u>platzi/014-docker/docker-compose.yml</u> up -d</b>
+Starting 014-docker_db_1 ... done
+Starting 014-docker_app_1 ... done
+
+<b>docker ps -a</b>
+CONTAINER ID   IMAGE                               COMMAND                  CREATED       STATUS                    PORTS                                       NAMES
+d06a807d84de   platziapp                           "docker-entrypoint.s…"   3 hours ago   Up 5 minutes              0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   014-docker_app_1
+49cfe2494613   mongo                               "docker-entrypoint.s…"   3 hours ago   Up 5 minutes              27017/tcp                                   014-docker_db_1
+</pre>
+
+<h3>Mirar los logs</h3>
+
+<p>De todos los contenedores</p>
+<pre>
+<b>docker-compose logs</b>
+</pre>
+
+<p>De un solo contenedor y con seguimiento</p>
+<pre>
+<b>docker-compose logs -f <u>app</u></b>
+</pre>
+
+<h3>Conseguir un shell en un contenedor</h3>
+
+<pre><b>docker-compose exec app bash</b></pre>
+
+<h3>Detener los servicios</h3>
+
+<pre><b>docker-compose stop</b></pre>
+
+<h3>Detener y eliminar los servicios</h3>
+
+<pre>
+<b>docker-compose down</b>
+Stopping 014-docker_app_1 ... done
+Stopping 014-docker_db_1  ... done
+Removing 014-docker_app_1 ... done
+Removing 014-docker_db_1  ... done
+Removing network 014-docker_default
+</pre>
+
+<h3>Docker compose y build</h3>
+
+<p>
+Modificamos el <b>Dockerfile</b> para tener capas, una base para las dependencias y otra para nuestro código
+</p>
+<xmp>FROM node:12
+
+COPY ["package.json", "package-lock.json", "/usr/src/"]
+WORKDIR /usr/src
+RUN npm install
+EXPOSE 3000
+
+COPY ["index.js","/usr/src/index.js"]
+CMD ["node", "index.js"]
+</xmp>
+
+<p>
+De igual manera indicamos en el <b>docker-compose.yml</b> que para app se tiene que construir una imagen y no tomar una.
+</p>
+<xmp>version: "3.8"
+services:
+  app:
+    build: .
+    environment:
+      MONGO_URL: "mongodb://db:27017/test"
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+  db:
+    image: mongo
+</xmp>
+
+<p>
+Ahora si le pedimos a docker compose hacer el build
+</p>
+<pre>
+<b>docker compose build</b>
+db uses an image, skipping
+Building app
+[+] Building 8.4s (11/11) FINISHED
+ => [internal] load build definition from Dockerfile                                                                                                                                                                                 0.0s
+ => => transferring dockerfile: 210B                                                                                                                                                                                                 0.0s
+ => [internal] load .dockerignore                                                                                                                                                                                                    0.0s
+ => => transferring context: 133B                                                                                                                                                                                                    0.0s
+ => [internal] load metadata for docker.io/library/node:12                                                                                                                                                                           1.2s
+ => [auth] library/node:pull token for registry-1.docker.io                                                                                                                                                                          0.0s
+ => [internal] load build context                                                                                                                                                                                                    0.0s
+ => => transferring context: 103.03kB                                                                                                                                                                                                0.0s
+ => CACHED [1/5] FROM docker.io/library/node:12@sha256:61748e56917a2f65621d68c9d9497c7bc420551a29f4be3543a373665eafd6e3                                                                                                              0.0s
+ => [2/5] COPY [package.json, package-lock.json, /usr/src/]                                                                                                                                                                          0.1s
+ => [3/5] WORKDIR /usr/src                                                                                                                                                                                                           0.0s
+ => [4/5] RUN npm install                                                                                                                                                                                                            6.4s
+ => [5/5] COPY [index.js,/usr/src/]                                                                                                                                                                                                  0.0s
+ => exporting to image                                                                                                                                                                                                               0.5s
+ => => exporting layers                                                                                                                                                                                                              0.4s
+ => => writing image sha256:e10443abd65d82d5404bba0662e48fd99c8e0769a7f0285901677fb80dc7a805                                                                                                                                         0.0s
+ => => naming to docker.io/library/014-docker_app
+</pre>
+
+<p>
+Lo anterior crea una imagen y la nombre de forma automática de acuerdo al nombre del directorio
+</p>
+<pre>
+docker image list
+REPOSITORY               TAG                       IMAGE ID       CREATED        SIZE
+014-docker_app           latest                    0fc3e2326451   25 hours ago   931MB
+</pre>
+
+<h3>Configurando como entorno de desarrollo con bind mounts para que podamos cambiar en caliente los archivos</h3>
+
+<p>
+La idea sería poder levantar un entorno más adecuado para desarrollo, destacando
+<br>No lleva image, indica que se tiene que hacer un build
+<br>En el caso de bind mounts, se pueden indicar mediante volumes
+<br>En este Dockerfile se monta el contexto pero ignorando lo que está en /usr/src/node_modules
+<br>El cambio en el command es para que node monitore cambios en index.js y reinicie el servicio cuando se requiera (por desgracia no funciona correctamente en windows)
+</p>
+<xmp>version: "3.8"
+services:
+  app:
+    build: .
+    environment:
+      MONGO_URL: "mongodb://db:27017/test"
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src
+      - /usr/src/node_modules
+    command: npx nodemon index.js
+  db:
+    image: mongo
+</xmp>
+
+<p>
+Normalmente ocurre que queremos usar configuraciones diferentes para nuestro entorno de desarrollo
+, pero no queremos modificar  el docker-compose.yml original.
+<br>Para ello contamos con el archivo <b>docker-compose.override.yml</b>
+<br>Docker va a hacer una mezcla de las directivas en ambos archivos.
+<br><b>Ejemplo de docker-compose.override.yml</b>
+</p>
+<xmp>version: "3.8"
+services:
+	app:
+		image: my-app-image
+</xmp>
+
+<pre>
+<b>docker compose build</b>
+[+] Building 1.8s (10/10) FINISHED
+ => [internal] load build definition from Dockerfile                                                                                                                                                                  0.0s
+ => => transferring dockerfile: 32B                                                                                                                                                                                   0.0s
+ => [internal] load .dockerignore                                                                                                                                                                                     0.0s
+ => => transferring context: 34B                                                                                                                                                                                      0.0s
+ => [internal] load metadata for docker.io/library/node:12                                                                                                                                                            1.7s
+ => [internal] load build context                                                                                                                                                                                     0.0s
+ => => transferring context: 100B                                                                                                                                                                                     0.0s
+ => [1/5] FROM docker.io/library/node:12@sha256:61748e56917a2f65621d68c9d9497c7bc420551a29f4be3543a373665eafd6e3                                                                                                      0.0s
+ => CACHED [2/5] COPY [package.json, package-lock.json, /usr/src/]                                                                                                                                                    0.0s
+ => CACHED [3/5] WORKDIR /usr/src                                                                                                                                                                                     0.0s
+ => CACHED [4/5] RUN npm install                                                                                                                                                                                      0.0s
+ => CACHED [5/5] COPY [index.js,/usr/src/index.js]                                                                                                                                                                    0.0s
+ => exporting to image                                                                                                                                                                                                0.0s
+ => => exporting layers                                                                                                                                                                                               0.0s
+ => => writing image sha256:c5ce3d88b9c0b45d95aa2973011e88a90f8fe1098c322bf48187506c37deb479                                                                                                                          0.0s
+ => => naming to docker.io/library/my-app-image
+
+<b>docker image ls</b>
+REPOSITORY               TAG                       IMAGE ID       CREATED         SIZE
+my-app-image             latest                    c5ce3d88b9c0   2 minutes ago   931MB
+</pre>
+
+<p>
+Como se puede ver, se combinan ambos, y las directivas del .override sobre escriben las del docker-compose.yml
+</p>
+
+<h2>Escalando un servicio</h2>
+
+<p>
+La idea es por ejemplo levantar dos instancias de app
+</p>
+<pre>
+<b>docker compose up -d --scale <u>app</u>=2</b>
+[+] Running 2/4
+ - Network 014-docker_default  Created                                                                                                                                                                                0.8s
+ - Container 014-docker_db_1   Started                                                                                                                                                                                3.6s
+ - Container 014-docker_app_2  Starting                                                                                                                                                                               4.7s
+ - Container 014-docker_app_1  Starting                                                                                                                                                                               4.7s
+<att>Error response from daemon: driver failed programming external connectivity on endpoint 014-docker_app_2 (5564ae0d218fa49057b0926045db8ac79965d6c047716e9ba28bb1baeff4fa69): Bind for 0.0.0.0:3000 failed: port is already
+allocated</att>
+
+<b>docker ps -a</b>
+CONTAINER ID   IMAGE                               COMMAND                  CREATED          STATUS                    PORTS                                       NAMES
+042772e51f1b   c5ce3d88b9c0                        "docker-entrypoint.s…"   20 seconds ago   Created                                                               014-docker_app_2
+00e18fc49cf6   c5ce3d88b9c0                        "docker-entrypoint.s…"   21 seconds ago   Up 15 seconds             0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   014-docker_app_1
+37f6f651df2a   269b735e72cb                        "docker-entrypoint.s…"   21 seconds ago   Up 17 seconds             27017/tcp                                   014-docker_db_1
+</pre>
+
+<p>
+Como se puede ver la segunda instancia genera un error al no poder asociarse al puerto 3000, y no arranca, aparece su status como <b>created</b>
+</p>
+<p>
+Para especificar un rango de puertos que se puedan mapear en el afitrion podemos hacerlo en el <b>docker-compose.yml</b> mediante un rango de puertos, ej. del 2000 al 2001
+</p>
+<xmp>version: "3.8"
+services:
+  app:
+    build: .
+    environment:
+      MONGO_URL: "mongodb://db:27017/test"
+    depends_on:
+      - db
+    ports:
+      - "2000-2001:3000"
+    volumes:
+      - .:/usr/src
+      - /usr/src/node_modules
+    command: npx nodemon index.js
+  db:
+    image: mongo
+</xmp>
+<pre>
+<b>docker compose up -d --scale app=2</b>
+Creating network "014-docker_default" with the default driver
+Creating 014-docker_db_1 ... done
+WARNING: The "app" service specifies a port on the host. If multiple containers for this service are created on a single host, the port will clash.
+Creating 014-docker_app_1 ... done
+Creating 014-docker_app_2 ... done
+
+<b>docker ps -a</b>
+CONTAINER ID   IMAGE                               COMMAND                  CREATED          STATUS                    PORTS                                       NAMES
+125bfdf7c244   my-app-image                        "docker-entrypoint.s…"   9 seconds ago    Up 6 seconds              0.0.0.0:2001->3000/tcp, :::2001->3000/tcp   014-docker_app_2
+e90532bb1187   my-app-image                        "docker-entrypoint.s…"   10 seconds ago   Up 7 seconds              0.0.0.0:2000->3000/tcp, :::2000->3000/tcp   014-docker_app_1
+52778a603da6   mongo                               "docker-entrypoint.s…"   11 seconds ago   Up 10 seconds             27017/tcp                                   014-docker_db_1
+</pre>
+
+
+
+
+<h2>Aspectos finos</h2>
+
+<h3>Shell form vs Exec form and signaling</h3>
+
+<p>
+Este tema es para observar la diferencia en la forma de especificar el <b>CMD</b> en el <i>Dockerfile</i>
+</p>
+
+<p><i>loop.sh</i></p>
+<xmp>#!/usr/bin/env bash
+trap 'exit 0' SIGTERM
+while true; do :; done
+</xmp>
+
+<p>
+<i>Dockerfile.shell-form</i>
+</p>
+<xmp>FROM ubuntu
+COPY ["loop.sh", "/"]
+CMD /loop.sh
+</xmp>
+
+<p>
+<i>Dockerfile.exec-form</i>
+</p>
+<xmp>FROM ubuntu
+COPY ["loop.sh", "/"]
+CMD ["/loop.sh"]
+</xmp>
+
+<p>
+Construimos las imagenes necesarias
+</p>
+<pre>
+<b>docker build -f Dockerfile.shell-form -t loop-shell-form .</b>
+[+] Building 0.2s (7/7) FINISHED
+
+<b>docker build -f Dockerfile.exec-form -t loop-exec-form .</b>
+[+] Building 0.1s (7/7) FINISHED
+
+<b>docker image list</b>
+REPOSITORY               TAG                       IMAGE ID       CREATED             SIZE
+loop-exec-form           latest                    c433c20457b1   49 seconds ago      72.8MB
+loop-shell-form          latest                    85af1449a747   49 seconds ago      72.8MB
+
+<b>docker run -d --name pillo-shell-form loop-shell-form</b>
+10641c52b1119cbc064ba7385fd06f433fb049d2344070479697a60b6663fa68
+
+<b>docker run -d --name pillo-exec-form loop-exec-form</b>
+2ea8acd3565b445892476ae1da7488cf64735225f6baccfd14b1ffb93dcd9621
+</pre>
+
+<p>
+Notar la diferencia en el arbol de procesos entre ambas formas:
+</p>
+<pre>
+<b>docker exec -it pillo-shell-form ps -ef</b>
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         1     0  0 03:25 ?        00:00:00 /bin/sh -c /loop.sh
+root         8     1 99 03:25 ?        00:02:24 bash /loop.sh
+root        18     0  0 03:27 pts/0    00:00:00 ps -ef
+
+<b>docker exec -it pillo-exec-form ps -ef</b>
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         1     0 99 03:28 ?        00:01:35 bash /loop.sh
+root         7     0  0 03:29 pts/0    00:00:00 ps -ef
+</pre>
+
+<p>
+Paramos los contenedores, notar el exit code en cada caso:
+</p>
+<pre>
+<b>docker stop pillo-exec-form</b>
+
+<b>docker stop pillo-shell-form</b>
+
+<b>docker ps -a</b>
+CONTAINER ID   IMAGE                               COMMAND                  CREATED         STATUS                        PORTS                               NAMES
+2ea8acd3565b   loop-exec-form                      "/loop.sh"               3 minutes ago   Exited (0) 42 seconds ago                                         pillo-exec-form
+10641c52b111   loop-shell-form                     "/bin/sh -c /loop.sh"    6 minutes ago   Exited (137) 12 seconds ago                                       pillo-shell-form
+</pre>
+
+<p>
+Docker envia la señal SIGTERM al proceso con PID 1, pero este no necesariamente la reenvia a los procesos hijos
+, lo que se requiere para un graceful shutdown.
+</p>
+
+<p>
+Haciendo limpieza
+</p>
+<pre>
+<b>docker rm pillo-exec-form pillo-shell-form</b>
+<b>docker image rm loop-exec-form loop-shell-form</b>
+</pre>
+
+<h2>Contenedores ejecutables - ENTRYPOINT y CMD</h2>
+
+<p>
+Vamos a construir una imagen que ejecute el comando ping en un contenedor
+<br><br>Para ello vamos a generar una imagen con el siguiente <i>Dockerfile</i>
+</p>
+<xmp>FROM alpine:3
+ENTRYPOINT ["ping","-c10"]
+CMD ["127.0.0.1"]
+</xmp>
+<p>
+Generamos la imagen <b>alpine-ping</b>
+</p>
+<pre>
+<b>docker build -t alpine-ping .</b>
+[+] Building 3.0s (6/6) FINISHED
+</pre>
+
+<p>
+Intentemos ejecutar la imagen y obtener un bash como normalmente hacemos
+</p>
+<pre>
+<b>docker run --rm alpine-ping <u>bash</u></b>
+ping: bad address 'bash'
+</pre>
+
+<p>
+Como puede verse se trata de hacer ping a la dirección bash, es decir docker ejecuta por defecto
+<br>el comando especificado en el ENTRYPOINT como base
+<br>y añade como parametro lo que se pasa como CMD en la llamada
+</p>
+
+<p>
+Ejecutamos la imagen para probar que se hace ping 10 veces (-c10) a 127.0.0.1 (localhost)
+</p>
+<pre>
+<b>docker run --rm alpine-ping</b>
+PING 127.0.0.1 (127.0.0.1): 56 data bytes
+64 bytes from 127.0.0.1: seq=0 ttl=64 time=0.047 ms
+64 bytes from 127.0.0.1: seq=1 ttl=64 time=0.110 ms
+64 bytes from 127.0.0.1: seq=2 ttl=64 time=0.111 ms
+64 bytes from 127.0.0.1: seq=3 ttl=64 time=0.056 ms
+64 bytes from 127.0.0.1: seq=4 ttl=64 time=0.112 ms
+64 bytes from 127.0.0.1: seq=5 ttl=64 time=0.113 ms
+64 bytes from 127.0.0.1: seq=6 ttl=64 time=0.116 ms
+64 bytes from 127.0.0.1: seq=7 ttl=64 time=0.111 ms
+64 bytes from 127.0.0.1: seq=8 ttl=64 time=0.087 ms
+64 bytes from 127.0.0.1: seq=9 ttl=64 time=0.111 ms
+
+--- 127.0.0.1 ping statistics ---
+10 packets transmitted, 10 packets received, 0% packet loss
+round-trip min/avg/max = 0.047/0.097/0.116 ms
+</pre>
+
+<p>
+Debido a lo anterior es posible pasar el nombre del dominio al que queremos hacer ping como parametro
+</p>
+<pre>
+<b>docker run --rm alpine-ping <u>google.com</u></b>
+PING google.com (216.58.195.238): 56 data bytes
+64 bytes from 216.58.195.238: seq=0 ttl=37 time=13.399 ms
+64 bytes from 216.58.195.238: seq=1 ttl=37 time=11.562 ms
+64 bytes from 216.58.195.238: seq=2 ttl=37 time=18.470 ms
+64 bytes from 216.58.195.238: seq=3 ttl=37 time=11.932 ms
+64 bytes from 216.58.195.238: seq=4 ttl=37 time=17.515 ms
+64 bytes from 216.58.195.238: seq=5 ttl=37 time=12.425 ms
+64 bytes from 216.58.195.238: seq=6 ttl=37 time=13.718 ms
+64 bytes from 216.58.195.238: seq=7 ttl=37 time=14.281 ms
+64 bytes from 216.58.195.238: seq=8 ttl=37 time=9.918 ms
+64 bytes from 216.58.195.238: seq=9 ttl=37 time=9.906 ms
+
+--- google.com ping statistics ---
+10 packets transmitted, 10 packets received, 0% packet loss
+round-trip min/avg/max = 9.906/13.312/18.470 ms
+</pre>
+
+<h2>Build context y .dockerignore</h2>
+
+<p>
+Cuando construimos una imagen a partir del Dockerfile, el último argumento es la ruta para el
+<b>contexto de build</b>.
+<br>Si en el <i>Dockerfile</i> hacemos <b>COPY [".","/destination/path"]</b>, se terminan copiando
+todos los archivos que se encuentran en la ruta del contexto de build.
+</p>
+
+<p>
+Podemos usar el archivo <b><i>.dockerignore</i></b> para especificar que archivos del contexto
+no se deben incluir al hacer <b>COPY</b>, es un concepto similar al .gitignore
+</p>
+
+<h2>Multi-stage build</h2>
+
+<xmp>
+--TODO explicar esta parte
+
+./build/
+	dev.Dockerfile
+	prod.Dockerfile
+
+# especificar el docker file a utilizar
+docker build -t prodapp -f build/prod.Dockerfile
+
+prod.Dockerfile
+================
+FROM node:12 as builder
+COPY ["package.json", "package-lock.json", "/usr/src/"]
+WORKDIR /usr/src
+RUN npm install --only=production
+COPY [".", "/usr/src/"]
+RUN npm install --only=development
+RUN npm run test
+
+# Productive image
+FROM node:12
+COPY ["package.json", "package-lock.json", "/usr/src/"]
+WORKDIR /usr/src
+RUN npm install --only=production
+COPY --from=builder ["/usr/src/index.js", "/usr/src/"]
+EXPOSE 3000
+CMD ["node", "index.js"]
+</xmp>
+
+</body>
+</html>
