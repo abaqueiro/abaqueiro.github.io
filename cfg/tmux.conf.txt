@@ -1,0 +1,14 @@
+# change activation key
+unbind C-b
+set -g prefix C-a
+bind-key a send-prefix
+
+# enable mouse support
+set -g mouse on
+
+# count windows and panes starting from 1
+set -g base-index 1
+set -g pane-base-index 1
+set-window-option -g pane-base-index 1
+set-option -g renumber-windows on
+
