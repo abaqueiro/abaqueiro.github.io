@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<meta charset="utf-8">
+	
+	<title>@abaqueiro on jq</title>
+<style>
+* {
+	box-sizing: border-box;
+}
+html {
+	/*
+	background-color: rgb(39,40,34);
+	color: white;
+	*/
+}
+body {
+	font-family: sans-serif;
+	/*font-weight: 300;*/
+}
+h1 {
+	color: purple;
+	/*
+	color: rgb(162,129,255);
+	color: rgb(100,100,98);
+	*/
+}
+
+#brand {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+}
+#brand .author {
+	font-weight: bold;
+	display: inline-block;
+}
+#brand .pub_date {
+	margin: auto;
+	right: 10px;
+	display: inline-block;
+	position: absolute;
+}
+#brand a
+,#brand a:visited
+{
+	text-decoration: none;
+	color: black;
+}
+#brand a:hover {
+	color: blue;
+}
+
+h2 {
+	color: darkred;
+	/*
+	color: rgb(249,38,144);
+	color: rgb(131,38,65);
+	*/
+}
+dt {
+	color: blue;
+	font-weight: 400;
+	/*
+	color: rgb(249,38,144);
+	color: rgb(162,129,255);
+	*/
+}
+dd {
+	margin-bottom: 20px;
+}
+u {
+	color: blue;
+}
+img {
+	width: 100%;
+}
+/*
+a {
+	color: yellow;
+}
+*/
+a:visited {
+	color:blue;
+}
+b {
+	color: darkred;
+	/*
+	color: rgb(249,38,144);
+	*/
+}
+</style>
+</head>
+<body>
+<div id="brand">
+	<div class="author"><a href="../index.html">Alfonso Baqueiro Bernal</a></div>
+	<div class="pub_date">Friday Aug 22, 2025</div>
+</div>
+
+<h1>jq</h1>
+
+<h2>query examples</h2>
+
+<p>
+This is an example of a query over a Azure DevOps release definition,
+I need to know if DEPLOY_CONFIRMATION argument is set to 'no' for
+production stages skipping other stages, once the stages
+are filtered, I just need to select the workflowTasks that its name
+starts with "Deploy".
+</p>
+
+<pre>jq '.environments[]|select(.name|contains("PR"))|.deployPhases[0].workflowTasks[]|select(.name|contains("Deploy"))|.inputs.arguments' data/project-UDB-release-definition-56.json</pre>
+<p>returns</p>
+<pre>"-TargetServer 'SERVER-W02.mydomain.com' -ArtifactBasePath \"_artifact\\Artifacts\" -ArtifactFileName \"artifact.tar.gz\" -ArtifactDestDir \"C:\\artifacts\" -PoolName '$(ApplicationPoolApi)' -PoolPhysicalPath \"$(DeployFolder)\" -DomainUser \"$(DeployUser)\" -DomainPwd \"$(DeployPassword)\" -DEPLOY_CONFIRMATION  'no'"
+"-TargetServer 'SERVER-W08.mydomain.com' -ArtifactBasePath \"_artifact\\Artifacts\" -ArtifactFileName \"artifact.tar.gz\" -ArtifactDestDir \"C:\\artifacts\" -PoolName '$(ApplicationPoolApi)' -PoolPhysicalPath \"$(DeployFolder)\" -DomainUser \"$(DeployUser)\" -DomainPwd \"$(DeployPassword)\" -DEPLOY_CONFIRMATION  'no'"
+"-TargetServer 'SERVER-W03.mydomain.com' -ArtifactBasePath \"_artifact\\Artifacts\" -ArtifactFileName \"artifact.tar.gz\" -ArtifactDestDir \"C:\\artifacts\" -PoolName '$(ApplicationPoolApi)' -PoolPhysicalPath \"$(DeployFolder)\" -DomainUser \"$(DeployUser)\" -DomainPwd \"$(DeployPassword)\" -DEPLOY_CONFIRMATION  'no'"
+"-TargetServer 'SERVER-W04.mydomain.com' -ArtifactBasePath \"_artifact\\Artifacts\" -ArtifactFileName \"artifact.tar.gz\" -ArtifactDestDir \"C:\\artifacts\" -PoolName '$(ApplicationPoolApi)' -PoolPhysicalPath \"$(DeployFolder)\" -DomainUser \"$(DeployUser)\" -DomainPwd \"$(DeployPassword)\" -DEPLOY_CONFIRMATION  'no'"
+"-TargetServer 'SERVER-W05.mydomain.com' -ArtifactBasePath \"_artifact\\Artifacts\" -ArtifactFileName \"artifact.tar.gz\" -ArtifactDestDir \"C:\\artifacts\" -PoolName '$(ApplicationPoolApi)' -PoolPhysicalPath \"$(DeployFolder)\" -DomainUser \"$(DeployUser)\" -DomainPwd \"$(DeployPassword)\" -DEPLOY_CONFIRMATION  'no'"
+"-TargetServer 'SERVER-W06.mydomain.com' -ArtifactBasePath \"_artifact\\Artifacts\" -ArtifactFileName \"artifact.tar.gz\" -ArtifactDestDir \"C:\\artifacts\" -PoolName '$(ApplicationPoolApi)' -PoolPhysicalPath \"$(DeployFolder)\" -DomainUser \"$(DeployUser)\" -DomainPwd \"$(DeployPassword)\" -DEPLOY_CONFIRMATION  'no'"
+"-TargetServer 'SERVER-W07.mydomain.com' -ArtifactBasePath \"_artifact\\Artifacts\" -ArtifactFileName \"artifact.tar.gz\" -ArtifactDestDir \"C:\\artifacts\" -PoolName '$(ApplicationPoolApi)' -PoolPhysicalPath \"$(DeployFolder)\" -DomainUser \"$(DeployUser)\" -DomainPwd \"$(DeployPassword)\" -DEPLOY_CONFIRMATION  'no'"
+"-TargetServer 'SERVER-W09.mydomain.com' -ArtifactBasePath \"_artifact\\Artifacts\" -ArtifactFileName \"artifact.tar.gz\" -ArtifactDestDir \"C:\\artifacts\" -PoolName '$(ApplicationPoolApi)' -PoolPhysicalPath \"$(DeployFolder)\" -DomainUser \"$(DeployUser)\" -DomainPwd \"$(DeployPassword)\" -DEPLOY_CONFIRMATION  'no'"
+"-TargetServer 'SERVER-W10.mydomain.com' -ArtifactBasePath \"_artifact\\Artifacts\" -ArtifactFileName \"artifact.tar.gz\" -ArtifactDestDir \"C:\\artifacts\" -PoolName '$(ApplicationPoolApi)' -PoolPhysicalPath \"$(DeployFolder)\" -DomainUser \"$(DeployUser)\" -DomainPwd \"$(DeployPassword)\" -DEPLOY_CONFIRMATION  'no'"
+"-TargetServer 'SERVER-W11.mydomain.com' -ArtifactBasePath \"_artifact\\Artifacts\" -ArtifactFileName \"artifact.tar.gz\" -ArtifactDestDir \"C:\\artifacts\" -PoolName '$(ApplicationPoolApi)' -PoolPhysicalPath \"$(DeployFolder)\" -DomainUser \"$(DeployUser)\" -DomainPwd \"$(DeployPassword)\" -DEPLOY_CONFIRMATION  'no'"
+"-TargetServer 'SERVER-W12.mydomain.com' -ArtifactBasePath \"_artifact\\Artifacts\" -ArtifactFileName \"artifact.tar.gz\" -ArtifactDestDir \"C:\\artifacts\" -PoolName '$(ApplicationPoolApi)' -PoolPhysicalPath \"$(DeployFolder)\" -DomainUser \"$(DeployUser)\" -DomainPwd \"$(DeployPassword)\" -DEPLOY_CONFIRMATION  'no'"
+"-TargetServer 'SERVER-W13.mydomain.com' -ArtifactBasePath \"_artifact\\Artifacts\" -ArtifactFileName \"artifact.tar.gz\" -ArtifactDestDir \"C:\\artifacts\" -PoolName '$(ApplicationPoolApi)' -PoolPhysicalPath \"$(DeployFolder)\" -DomainUser \"$(DeployUser)\" -DomainPwd \"$(DeployPassword)\" -DEPLOY_CONFIRMATION  'no'"
+</pre>
+
+<!--
+<h2>References</h2>
+
+<ul>
+<li><a target="_blank" href=""></a></li>
+</ul>
+-->
+
+</body>
+</html>
